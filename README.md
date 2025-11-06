@@ -7,4 +7,18 @@ Frontend web application for the **AutoVulcan Project**, a data-driven dashboard
 ---
 
 ## 📁 Project Structure
-
+├── README.md
+├── package-lock.json
+├── src
+│├── App.vue 
+│ ├── assets 
+│ ├── components 
+│ ├── main.js 
+│ ├── router 
+│ │ └── index.js 
+│ ├── services 
+│ │ └── api.js 
+│ ├── store 
+│ │ └── index.js 
+│ └── views 
+└── vite.config.js
