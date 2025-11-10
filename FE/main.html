@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AutoVulcan Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  <!-- HEADER -->
+  <header id="page-header">
+    <div id="header-left">
+        <img src="vulshieldlabs2.png" alt="Vulnshield Labs Logo" id="logo">
+        <h1 id="title">AutoVulcan Dashboard</h1>
+        <p id="subtitle">Automated Vulnerability Mining</p>
+    </div>
+
+    <!-- Tombol Reset -->
+    <div id="header-right">
+      <button id="btn-reset" type="button" aria-label="Reset dashboard">Reset</button>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT: panel dua kolom + history di bawah -->
+  <main id="main-content">
+    <!-- Panel atas: dua kolom -->
+    <div id="panels">
+      <!-- Panel kiri: Configuration -->
+      <section id="panel-config" aria-labelledby="config-heading">
+        <div class="panel-header">
+          <h2 id="config-heading">Configuration</h2>
+        </div>
+
+  
+        <div class="panel-body">
+          <label for="config-json" class="sr-only">AutoVulcan (JSON)</label>
+          <textarea id="config-json" name="config-json" rows="12" aria-label="SEIGE Configuration (JSON)">
+
+          </textarea>
+
+          <!-- Tombol Run -->
+          <div class="panel-actions">
+            <button id="btn-run" type="button">Run AutoVulcan</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel kanan: Execution Pipeline -->
+      <section id="panel-exec" aria-labelledby="exec-heading">
+        <div class="panel-header">
+          <h2 id="exec-heading">Execution Pipeline</h2>
+        </div>
+
+        <div class="panel-body">
+          <p id="exec-info">Click "Run AutoVulcan" to start the analysis pipeline</p>
+          <div id="exec-log" aria-live="polite">
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Artifact History: tabel di bawah -->
+    <section id="artifact-history" aria-labelledby="history-heading">
+      <div class="history-header">
+        <h2 id="history-heading">Artifact History</h2>
+      </div>
+
+      <div class="history-body">
+        <table id="history-table" aria-describedby="history-description">
+          <caption id="history-description">Riwayat hasil analisis yang sudah dijalankan</caption>
+          <thead>
+            <tr>
+              <th scope="col">Repository</th>
+              <th scope="col">Commit</th>
+              <th scope="col">Status</th>
+              <th scope="col">CVEs</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Time</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>example</td>
+              <td>abc123</td>
+              <td>Success</td>
+              <td>1 (H1)</td>
+              <td>13s</td>
+              <td>Nov 5, 02:44 PM</td>
+              <td>
+                <button class="action-view" type="button" aria-label="View artifact">View</button>
+                <button class="action-download" type="button" aria-label="Download artifact">Download</button>
+              </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="page-footer">
+    <p>© VulnShieldLabs</p>
+  </footer>
+
+
+  <!-- <script>
+    document.getElementById('btn-reset')?.addEventListener('click', function () {
+      console.log('Reset clicked');
+    });
+
+    document.getElementById('btn-run')?.addEventListener('click', function () {
+      console.log('Run AutoVulcan clicked');
+      const config = document.getElementById('config-json').value;
+      const log = document.getElementById('exec-log');
+      if (log) {
+        log.textContent = 'Pipeline started...';
+      }
+    });
+  </script> -->
+</body>
+</html>
