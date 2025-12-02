@@ -191,53 +191,55 @@ npm run preview
 
 The build output will be in the `dist/` directory.
 
-## Docker (Production)
+## Run with PostgreSQL (docker-compose)
 
-You can build a production Docker image using the multi-stage Dockerfile included in this repo.
+I added a Postgres service to the repository's docker-compose files so you can run the frontend and a local PostgreSQL instance together.
 
-1. Build the Docker image (run this in the repo root):
+Important notes:
+- The project `.env` contains DATABASE_URL="postgresql://postgres:postgres@localhost:5432/autovulcan1" — when you run PostgreSQL with docker-compose the proper host for containers is `db`, so the compose setups set DATABASE_URL to `postgresql://postgres:postgres@db:5432/autovulcan1`.
 
-```bash
-docker build -t autovulcan-fe:latest .
-```
-
-2. Run the container and publish port 80 on the container to port 8080 on the host:
+Production (build + nginx) example:
 
 ```bash
-docker run -d -p 8080:80 --name autovulcan-fe autovulcan-fe:latest
-```
-
-3. Open http://localhost:8080 in your browser to view the app.
-
-This image uses a multi-stage build to generate optimized static assets with Node/Vite and serves them with Nginx.
-
-### Using docker-compose (production)
-
-If you prefer docker-compose, there's a `docker-compose.yml` included that builds and runs the same production image.
-
-```bash
-# Build & start
+# Build+start the production image + postgres in background
 docker compose up --build -d
 
-# Open http://localhost:8080
-
-# Stop and remove
-docker compose down
+# The web app: http://localhost:8080
+# Postgres port (host): 5432
 ```
 
-### Development with docker-compose
-
-If you'd like to run the Vite dev server inside Docker (hot-reload), a `docker-compose.dev.yml` is included.
+Development (Vite dev server + postgres):
 
 ```bash
-# Start development container (bind mounts your source)
-docker compose -f docker-compose.dev.yml up
+# Start the dev server and a postgres container
+docker compose -f docker-compose.dev.yml up --build
 
-# The dev server will be available at http://localhost:5000
-
-# Stop
-docker compose -f docker-compose.dev.yml down
+# The dev server: http://localhost:5000
+# Postgres port (host): 5432
 ```
+
+Testing / connecting to the DB (quick checks)
+
+1) Connect from the host using psql (if installed):
+
+```bash
+# connect to the local container-published port
+psql postgresql://postgres:postgres@localhost:5432/autovulcan1
+```
+
+2) Or open a psql shell inside the running db container:
+
+```bash
+docker compose exec db psql -U postgres -d autovulcan1
+```
+
+3) Run the SQL migration bundle from inside the container (if needed):
+
+```bash
+docker compose exec -T db psql -U postgres -d autovulcan1 -f /workdir/migrations/001_init.sql
+```
+
+Note: the migration path above assumes you mount or copy the repo into the container that needs access to it — adjust paths if you run migrations from a different container/service that has your code mounted.
 
 
 ## License

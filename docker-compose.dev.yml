@@ -11,6 +11,32 @@ services:
       - "5000:5000" # maps Vite dev server
     command: sh -lc "npm ci && npm run dev -- --host 0.0.0.0 --port 5000"
     environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/autovulcan1
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: autovulcan1
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d autovulcan1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+    name: autovulcan1_pgdata
