@@ -11,7 +11,7 @@ services:
       - "5000:5000" # maps Vite dev server
     command: sh -lc "npm ci --legacy-peer-deps && npm run dev -- --host 0.0.0.0 --port 5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/autovulcan1
+      - DATABASE_URL=postgresql://seige:secretpassword@db:5432/seige_db
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       db:
@@ -23,19 +23,19 @@ services:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: autovulcan1
+      POSTGRES_USER: seige
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: seige_db
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d autovulcan1"]
+      test: ["CMD-SHELL", "pg_isready -U seige -d seige_db"]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
   pgdata:
-    name: autovulcan1_pgdata
+    name: seige_db_pgdata

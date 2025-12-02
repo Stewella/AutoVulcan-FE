@@ -196,7 +196,7 @@ The build output will be in the `dist/` directory.
 I added a Postgres service to the repository's docker-compose files so you can run the frontend and a local PostgreSQL instance together.
 
 Important notes:
-- The project `.env` contains DATABASE_URL="postgresql://postgres:postgres@localhost:5432/autovulcan1" — when you run PostgreSQL with docker-compose the proper host for containers is `db`, so the compose setups set DATABASE_URL to `postgresql://postgres:postgres@db:5432/autovulcan1`.
+- The project `.env` contains DATABASE_URL="postgresql://seige:secretpassword@localhost:5432/seige_db" — when you run PostgreSQL with docker-compose the proper host for containers is `db`, so the compose setups set DATABASE_URL to `postgresql://seige:secretpassword@db:5432/seige_db`.
 
 Production (build + nginx) example:
 
@@ -224,19 +224,19 @@ Testing / connecting to the DB (quick checks)
 
 ```bash
 # connect to the local container-published port
-psql postgresql://postgres:postgres@localhost:5432/autovulcan1
+psql postgresql://seige:secretpassword@localhost:5432/seige_db
 ```
 
 2) Or open a psql shell inside the running db container:
 
 ```bash
-docker compose exec db psql -U postgres -d autovulcan1
+docker compose exec db psql -U seige -d seige_db
 ```
 
 3) Run the SQL migration bundle from inside the container (if needed):
 
 ```bash
-docker compose exec -T db psql -U postgres -d autovulcan1 -f /workdir/migrations/001_init.sql
+docker compose exec -T db psql -U seige -d seige_db -f /workdir/migrations/001_init.sql
 ```
 
 Note: the migration path above assumes you mount or copy the repo into the container that needs access to it — adjust paths if you run migrations from a different container/service that has your code mounted.
