@@ -191,6 +191,55 @@ npm run preview
 
 The build output will be in the `dist/` directory.
 
+## Docker (Production)
+
+You can build a production Docker image using the multi-stage Dockerfile included in this repo.
+
+1. Build the Docker image (run this in the repo root):
+
+```bash
+docker build -t autovulcan-fe:latest .
+```
+
+2. Run the container and publish port 80 on the container to port 8080 on the host:
+
+```bash
+docker run -d -p 8080:80 --name autovulcan-fe autovulcan-fe:latest
+```
+
+3. Open http://localhost:8080 in your browser to view the app.
+
+This image uses a multi-stage build to generate optimized static assets with Node/Vite and serves them with Nginx.
+
+### Using docker-compose (production)
+
+If you prefer docker-compose, there's a `docker-compose.yml` included that builds and runs the same production image.
+
+```bash
+# Build & start
+docker compose up --build -d
+
+# Open http://localhost:8080
+
+# Stop and remove
+docker compose down
+```
+
+### Development with docker-compose
+
+If you'd like to run the Vite dev server inside Docker (hot-reload), a `docker-compose.dev.yml` is included.
+
+```bash
+# Start development container (bind mounts your source)
+docker compose -f docker-compose.dev.yml up
+
+# The dev server will be available at http://localhost:5000
+
+# Stop
+docker compose -f docker-compose.dev.yml down
+```
+
+
 ## License
 
 Proprietary - VulnShield Labs
