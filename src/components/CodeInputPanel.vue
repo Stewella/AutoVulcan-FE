@@ -78,27 +78,6 @@
           max="600"
         />
       </div>
-      
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            v-model="formData.enableExploitGen"
-          />
-          <span>Enable Exploit Generation</span>
-        </label>
-      </div>
-      
-      <div class="form-group">
-        <label for="code-content" class="input-label">Java Code</label>
-        <textarea
-          id="code-content"
-          v-model="formData.codeContent"
-          class="form-control code-textarea"
-          placeholder="public class App { ... }"
-          rows="6"
-        ></textarea>
-      </div>
     </div>
 
     <div v-if="inputMode === 'upload'" class="upload-input">
@@ -179,9 +158,7 @@ const formData = ref({
   repository: '',
   commit: '',
   targetCVE: '',
-  timeoutSeconds: 120,
-  enableExploitGen: true,
-  codeContent: ''
+  timeoutSeconds: 120
 })
 
 const sampleJson = {
@@ -252,14 +229,10 @@ function handleRun() {
     inputData = {
       repository: formData.value.repository,
       commit: formData.value.commit,
-      files: formData.value.codeContent ? [{
-        path: `src/com/example/${formData.value.repository.replace(/[^a-zA-Z]/g, '')}.java`,
-        content: formData.value.codeContent
-      }] : [],
+     files: [],
       scanOptions: {
         targetCVE: formData.value.targetCVE || null,
-        timeoutSeconds: formData.value.timeoutSeconds,
-        enableExploitGen: formData.value.enableExploitGen
+        timeoutSeconds: formData.value.timeoutSeconds
       }
     }
   } else if (inputMode.value === 'upload' && uploadedFile.value) {
@@ -397,28 +370,6 @@ function clearUploadedFile() {
 .form-control:focus {
   outline: none;
   border-color: var(--primary);
-}
-
-.code-textarea {
-  font-family: 'Monaco', 'Menlo', monospace;
-  font-size: 0.8125rem;
-  min-height: 120px;
-  resize: vertical;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
-.checkbox-label input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary);
 }
 
 .upload-area {
