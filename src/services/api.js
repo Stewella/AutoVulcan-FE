@@ -135,68 +135,26 @@ function generateMockArtifact(artifactId, inputData, job) {
       },
       evidence: {
         executionTrace: [
-          // `${className}.main(String[])`,
-          // `${className}.initialize()`,
-          // `${className}.processInput(Object)`,
-          // `VulnerableLib.execute(String)`
-          `MainApp.main()`,
-`ServiceB.runTask()`,
-`Repository.load()`,
-`Repository.<init>()`,
-`ServiceB.<init>()`,
-`ServiceA.processData()`,
-`Utils.log()`,
-`Utils.printSummary()`,
-`Repository.save()`,
-`PrintStream.println()`,
-`ServiceB.transform()`,
-`String.toUpperCase()`,
-`Object.<init>()`,
-`ServiceA.<init>()`
+          `${className}.main(String[])`,
+          `${className}.initialize()`,
+          `${className}.processInput(Object)`,
+          `VulnerableLib.execute(String)`
         ],
         coverage: Math.round((70 + Math.random() * 25) * 10) / 10,
         exploitSuccess: true
       },
-      "callGraph": {
-    "nodes": [
-      { "id": "n1",  "label": "MainApp.main()", "type": "entry" },
-      { "id": "n2",  "label": "ServiceB.runTask()", "type": "intermediate" },
-      { "id": "n3",  "label": "Repository.load()", "type": "intermediate" },
-      { "id": "n4",  "label": "Repository.<init>()", "type": "intermediate" },
-      { "id": "n5",  "label": "ServiceB.<init>()", "type": "intermediate" },
-      { "id": "n6",  "label": "ServiceA.processData()", "type": "intermediate" },
-      { "id": "n7",  "label": "Utils.log()", "type": "intermediate" },
-      { "id": "n8",  "label": "Utils.printSummary()", "type": "intermediate" },
-      { "id": "n9",  "label": "Repository.save()", "type": "intermediate" },
-      { "id": "n10", "label": "PrintStream.println()", "type": "system" },
-      { "id": "n11", "label": "ServiceB.transform()", "type": "intermediate" },
-      { "id": "n12", "label": "String.toUpperCase()", "type": "system" },
-      { "id": "n13", "label": "Object.<init>()", "type": "system" },
-      { "id": "n14", "label": "ServiceA.<init>()", "type": "intermediate" }
-    ],
-    "edges": [
-      { "source": "n2", "target": "n3" },
-      { "source": "n1", "target": "n4" },
-      { "source": "n5", "target": "n13" },
-      { "source": "n6", "target": "n7" },
-      { "source": "n1", "target": "n5" },
-      { "source": "n1", "target": "n2" },
-      { "source": "n1", "target": "n8" },
-      { "source": "n9", "target": "n7" },
-      { "source": "n1", "target": "n6" },
-      { "source": "n8", "target": "n10" },
-      { "source": "n6", "target": "n10" },
-      { "source": "n2", "target": "n11" },
-      { "source": "n2", "target": "n9" },
-      { "source": "n3", "target": "n7" },
-      { "source": "n1", "target": "n10" },
-      { "source": "n11", "target": "n12" },
-      { "source": "n2", "target": "n10" },
-      { "source": "n7", "target": "n10" },
-      { "source": "n4", "target": "n13" },
-      { "source": "n1", "target": "n14" },
-      { "source": "n14", "target": "n13" }
-    ]
+      callGraph: {
+        nodes: [
+          { id: 'n1', label: `${className}.main()`, type: 'entry' },
+          { id: 'n2', label: `${className}.initialize()`, type: 'intermediate' },
+          { id: 'n3', label: `${className}.processInput()`, type: 'intermediate' },
+          { id: 'n4', label: 'VulnerableLib.execute()', type: 'vulnerable' }
+        ],
+        edges: [
+          { source: 'n1', target: 'n2' },
+          { source: 'n2', target: 'n3' },
+          { source: 'n3', target: 'n4' }
+        ]
       }
     }
   }

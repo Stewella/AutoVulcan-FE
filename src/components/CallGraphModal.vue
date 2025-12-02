@@ -16,83 +16,56 @@
       </div>
       
       <div class="modal-body">
-        <div class="graph-container" ref="graphContainer">
-          <svg 
-            :width="svgWidth" 
-            :height="svgHeight" 
-            class="call-graph-svg"
-            :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
+        <div class="graph-container">
+          <VueFlow
+            :nodes="flowNodes"
+            :edges="flowEdges"
+            :default-viewport="{ zoom: 1, x: 0, y: 0 }"
+            :fit-view-on-init="true"
+            :nodes-draggable="true"
+            :nodes-connectable="false"
+            :zoom-on-scroll="true"
+            :pan-on-drag="true"
+            class="vue-flow-wrapper"
           >
-            <defs>
-              <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="7"
-                refX="9"
-                refY="3.5"
-                orient="auto"
-              >
-                <polygon 
-                  points="0 0, 10 3.5, 0 7" 
-                  fill="var(--primary)"
-                />
-              </marker>
-              <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#0ea5e9"/>
-                <stop offset="100%" style="stop-color:#14b8a6"/>
-              </linearGradient>
-              <linearGradient id="vulnerableGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#ef4444"/>
-                <stop offset="100%" style="stop-color:#f97316"/>
-              </linearGradient>
-              <linearGradient id="entryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#22c55e"/>
-                <stop offset="100%" style="stop-color:#14b8a6"/>
-              </linearGradient>
-            </defs>
+            <Background pattern-color="#334155" :gap="20" />
+            <Controls />
             
-            <g class="edges">
-              <line
-                v-for="edge in computedEdges"
-                :key="`${edge.source}-${edge.target}`"
-                :x1="edge.x1"
-                :y1="edge.y1"
-                :x2="edge.x2"
-                :y2="edge.y2"
-                class="edge"
-                marker-end="url(#arrowhead)"
-              />
-            </g>
+            <template #node-entry="{ data }">
+              <div class="custom-node entry-node">
+                <div class="node-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+                <span class="node-label">{{ data.label }}</span>
+              </div>
+            </template>
             
-            <g class="nodes">
-              <g 
-                v-for="node in computedNodes" 
-                :key="node.id"
-                :transform="`translate(${node.x}, ${node.y})`"
-                class="node-group"
-                @mouseenter="hoveredNode = node.id"
-                @mouseleave="hoveredNode = null"
-              >
-                <rect
-                  :x="-node.width / 2"
-                  :y="-node.height / 2"
-                  :width="node.width"
-                  :height="node.height"
-                  rx="8"
-                  :class="['node-rect', node.type]"
-                  :fill="getNodeFill(node.type)"
-                />
-                <text
-                  x="0"
-                  :y="4"
-                  text-anchor="middle"
-                  class="node-label"
-                >
-                  {{ node.label }}
-                </text>
-              </g>
-            </g>
-          </svg>
+            <template #node-intermediate="{ data }">
+              <div class="custom-node intermediate-node">
+                <div class="node-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                </div>
+                <span class="node-label">{{ data.label }}</span>
+              </div>
+            </template>
+            
+            <template #node-vulnerable="{ data }">
+              <div class="custom-node vulnerable-node">
+                <div class="node-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </div>
+                <span class="node-label">{{ data.label }}</span>
+              </div>
+            </template>
+          </VueFlow>
         </div>
         
         <div class="legend">
@@ -122,6 +95,12 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue'
+import { VueFlow } from '@vue-flow/core'
+import { Background } from '@vue-flow/background'
+import { Controls } from '@vue-flow/controls'
+import '@vue-flow/core/dist/style.css'
+import '@vue-flow/core/dist/theme-default.css'
+import '@vue-flow/controls/dist/style.css'
 
 const props = defineProps({
   artifact: {
@@ -133,69 +112,49 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const modalRef = ref(null)
-const graphContainer = ref(null)
-const hoveredNode = ref(null)
-
-const svgWidth = 700
-const svgHeight = 400
 
 const callGraph = computed(() => props.artifact.artifactJson?.callGraph || { nodes: [], edges: [] })
 
-const computedNodes = computed(() => {
+const flowNodes = computed(() => {
   const nodes = callGraph.value.nodes || []
-  const nodeCount = nodes.length
-  const verticalSpacing = svgHeight / (nodeCount + 1)
-  const horizontalCenter = svgWidth / 2
+  const verticalSpacing = 120
+  const horizontalCenter = 300
   
   return nodes.map((node, index) => {
-    const labelLength = node.label.length
-    const width = Math.max(150, labelLength * 8 + 40)
-    
     let xOffset = 0
-    if (index % 2 === 1 && nodeCount > 2) {
-      xOffset = 80
+    if (index % 2 === 1 && nodes.length > 2) {
+      xOffset = 100
     } else if (index % 2 === 0 && index > 0) {
-      xOffset = -80
+      xOffset = -100
     }
     
     return {
-      ...node,
-      x: horizontalCenter + xOffset,
-      y: verticalSpacing * (index + 1),
-      width,
-      height: 40
+      id: node.id,
+      type: node.type || 'intermediate',
+      position: { 
+        x: horizontalCenter + xOffset, 
+        y: verticalSpacing * index + 50 
+      },
+      data: { label: node.label }
     }
   })
 })
 
-const computedEdges = computed(() => {
+const flowEdges = computed(() => {
   const edges = callGraph.value.edges || []
-  const nodeMap = new Map(computedNodes.value.map(n => [n.id, n]))
   
-  return edges.map(edge => {
-    const source = nodeMap.get(edge.source)
-    const target = nodeMap.get(edge.target)
-    
-    if (!source || !target) return null
-    
-    return {
-      source: edge.source,
-      target: edge.target,
-      x1: source.x,
-      y1: source.y + source.height / 2,
-      x2: target.x,
-      y2: target.y - target.height / 2 - 10
+  return edges.map((edge, index) => ({
+    id: `e${index}`,
+    source: edge.source,
+    target: edge.target,
+    animated: true,
+    style: { stroke: '#0ea5e9', strokeWidth: 2 },
+    markerEnd: {
+      type: 'arrowclosed',
+      color: '#0ea5e9'
     }
-  }).filter(Boolean)
+  }))
 })
-
-function getNodeFill(type) {
-  switch (type) {
-    case 'entry': return 'url(#entryGradient)'
-    case 'vulnerable': return 'url(#vulnerableGradient)'
-    default: return 'url(#nodeGradient)'
-  }
-}
 
 onMounted(() => {
   if (modalRef.value) {
@@ -221,7 +180,7 @@ onMounted(() => {
   background: var(--bg-card);
   border-radius: 1rem;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   max-height: 90vh;
   overflow: hidden;
   display: flex;
@@ -304,50 +263,60 @@ onMounted(() => {
   background: var(--bg-dark);
   border-radius: 0.75rem;
   overflow: hidden;
+  height: 450px;
+}
+
+.vue-flow-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-node {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 400px;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: white;
+  min-width: 140px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.call-graph-svg {
-  display: block;
-}
-
-.edge {
-  stroke: var(--primary);
-  stroke-width: 2;
-  opacity: 0.6;
-}
-
-.node-rect {
-  stroke-width: 2;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.node-rect.entry {
-  stroke: #22c55e;
-}
-
-.node-rect.intermediate {
-  stroke: #0ea5e9;
-}
-
-.node-rect.vulnerable {
-  stroke: #ef4444;
-}
-
-.node-group:hover .node-rect {
-  filter: brightness(1.2);
+.custom-node:hover {
   transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .node-label {
-  fill: white;
-  font-size: 11px;
-  font-weight: 500;
-  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entry-node {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  border: 2px solid #22c55e;
+}
+
+.intermediate-node {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+  border: 2px solid #0ea5e9;
+}
+
+.vulnerable-node {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  border: 2px solid #ef4444;
 }
 
 .legend {
@@ -395,6 +364,10 @@ onMounted(() => {
     padding: 1rem;
   }
   
+  .graph-container {
+    height: 350px;
+  }
+  
   .legend {
     flex-wrap: wrap;
     gap: 1rem;
@@ -404,5 +377,39 @@ onMounted(() => {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+</style>
+
+<style>
+.vue-flow__node {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.vue-flow__handle {
+  opacity: 0;
+}
+
+.vue-flow__controls {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.vue-flow__controls-button {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  fill: var(--text-secondary);
+}
+
+.vue-flow__controls-button:hover {
+  background: var(--bg-input);
+}
+
+.vue-flow__background {
+  background: var(--bg-dark);
 }
 </style>

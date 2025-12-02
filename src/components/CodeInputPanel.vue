@@ -78,6 +78,7 @@
           max="600"
         />
       </div>
+      
     </div>
 
     <div v-if="inputMode === 'upload'" class="upload-input">
@@ -229,7 +230,7 @@ function handleRun() {
     inputData = {
       repository: formData.value.repository,
       commit: formData.value.commit,
-     files: [],
+      files: [],
       scanOptions: {
         targetCVE: formData.value.targetCVE || null,
         timeoutSeconds: formData.value.timeoutSeconds
