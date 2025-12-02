@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  dev:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - /app/node_modules
+    ports:
+      - "5000:5000" # maps Vite dev server
+    command: sh -lc "npm ci && npm run dev -- --host 0.0.0.0 --port 5000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
