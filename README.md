@@ -196,7 +196,7 @@ The build output will be in the `dist/` directory.
 I added a Postgres service to the repository's docker-compose files so you can run the frontend and a local PostgreSQL instance together.
 
 Important notes:
-- The project `.env` contains DATABASE_URL="postgresql://seige:secretpassword@localhost:5432/seige_db" — when you run PostgreSQL with docker-compose the proper host for containers is `db`, so the compose setups set DATABASE_URL to `postgresql://seige:secretpassword@db:5432/seige_db`.
+- The project `.env` contains DATABASE_URL="postgresql://seige:secretpassword@localhost:5433/seige_db" — when you run PostgreSQL with docker-compose the proper host for containers is `db`, so the compose setups set DATABASE_URL to `postgresql://seige:secretpassword@db:5432/seige_db`.
 
 Production (build + nginx) example:
 
@@ -205,7 +205,7 @@ Production (build + nginx) example:
 docker compose up --build -d
 
 # The web app: http://localhost:8080
-# Postgres port (host): 5432
+# Postgres port (host): 5433
 ```
 
 Development (Vite dev server + postgres):
@@ -215,7 +215,7 @@ Development (Vite dev server + postgres):
 docker compose -f docker-compose.dev.yml up --build
 
 # The dev server: http://localhost:5000
-# Postgres port (host): 5432
+# Postgres port (host): 5433
 ```
 
 Testing / connecting to the DB (quick checks)
@@ -224,7 +224,7 @@ Testing / connecting to the DB (quick checks)
 
 ```bash
 # connect to the local container-published port
-psql postgresql://seige:secretpassword@localhost:5432/seige_db
+psql postgresql://seige:secretpassword@localhost:5433/seige_db
 ```
 
 2) Or open a psql shell inside the running db container:
