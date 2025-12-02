@@ -82,7 +82,7 @@
     </div>
 
     <div v-if="inputMode === 'upload'" class="upload-input">
-      <label class="input-label">Upload JSON File</label>
+      <label class="input-label">Upload File .zip</label>
       <div 
         class="upload-area"
         :class="{ 'drag-over': isDragging }"
@@ -103,7 +103,7 @@
             <polyline points="17 8 12 3 7 8"></polyline>
             <line x1="12" y1="3" x2="12" y2="15"></line>
           </svg>
-          <p>Drag & drop JSON file here or click to browse</p>
+          <p>Drag & drop .zip here or click to browse</p>
         </div>
       </div>
       <div v-if="uploadedFile" class="uploaded-file">

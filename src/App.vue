@@ -12,8 +12,8 @@
         </router-link>
         <div class="nav-links">
           <router-link to="/" class="nav-link">Home</router-link>
-          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
           <router-link to="/features" class="nav-link">Features</router-link>
+          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
         </div>
       </div>
     </nav>
