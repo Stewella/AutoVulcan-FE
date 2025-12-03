@@ -1,4 +1,12 @@
 export default {
+  common: {
+    closeModal: 'Close modal',
+    switchToIndonesian: 'Switch to Indonesian',
+    switchToEnglish: 'Switch to English',
+    viewDetails: 'View Details',
+    downloadArtifact: 'Download Artifact',
+    viewCallGraph: 'View Call Graph'
+  },
   nav: {
     home: 'Home',
     features: 'Features',

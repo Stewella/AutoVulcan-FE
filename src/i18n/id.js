@@ -1,4 +1,12 @@
 export default {
+  common: {
+    closeModal: 'Tutup modal',
+    switchToIndonesian: 'Ganti ke Bahasa Indonesia',
+    switchToEnglish: 'Ganti ke Bahasa Inggris',
+    viewDetails: 'Lihat Detail',
+    downloadArtifact: 'Unduh Artefak',
+    viewCallGraph: 'Lihat Call Graph'
+  },
   nav: {
     home: 'Beranda',
     features: 'Fitur',

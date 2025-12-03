@@ -14,7 +14,7 @@
           <router-link to="/" class="nav-link">{{ t.nav.home }}</router-link>
           <router-link to="/features" class="nav-link">{{ t.nav.features }}</router-link>
           <router-link to="/dashboard" class="nav-link">{{ t.nav.dashboard }}</router-link>
-          <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? 'Switch to Indonesian' : 'Ganti ke Bahasa Inggris'">
+          <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? t.common.switchToIndonesian : t.common.switchToEnglish">
             <span class="lang-flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇮🇩' }}</span>
             <span class="lang-code">{{ currentLanguage.toUpperCase() }}</span>
           </button>

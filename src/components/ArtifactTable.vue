@@ -75,7 +75,7 @@
               <button 
                 @click="emit('view', artifact)" 
                 class="action-btn view-btn"
-                :title="t.artifactTable.view"
+                :title="t.common.viewDetails"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -86,7 +86,7 @@
               <button 
                 @click="emit('download', artifact)" 
                 class="action-btn download-btn"
-                title="Download"
+                :title="t.common.downloadArtifact"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -97,7 +97,7 @@
               <button 
                 @click="emit('graph', artifact)" 
                 class="action-btn graph-btn"
-                title="Graph"
+                :title="t.common.viewCallGraph"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="18" cy="5" r="3"></circle>
