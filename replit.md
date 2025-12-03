@@ -28,12 +28,20 @@ Auto-Vulcan is VulnShield Labs' flagship platform for automated vulnerability mi
 │   │   ├── ArtifactTable.vue
 │   │   ├── ArtifactDetailModal.vue
 │   │   └── CallGraphModal.vue
+│   ├── composables/     # Vue composables
+│   │   └── useI18n.js   # Translation helper
+│   ├── i18n/            # Internationalization
+│   │   ├── en.js        # English translations
+│   │   ├── id.js        # Indonesian translations
+│   │   └── index.js     # Translation exports
 │   ├── views/           # Page components
 │   │   ├── Landing.vue
 │   │   ├── Dashboard.vue
 │   │   └── Features.vue
 │   ├── router/          # Vue Router config
 │   ├── store/           # Pinia stores
+│   │   ├── index.js     # Scan store
+│   │   └── language.js  # Language preference store
 │   ├── services/        # API services (currently mock)
 │   ├── App.vue
 │   └── main.js
@@ -72,6 +80,11 @@ Currently uses mock API handlers. To connect a real backend:
   - Configured workflow for Replit environment
   - Updated .gitignore for Vue/Vite projects
   - Verified application runs successfully
+  - Added bilingual support (English/Indonesian) with language switcher
+  - Created i18n translation files (src/i18n/en.js, src/i18n/id.js)
+  - Implemented language store with Pinia persistence (localStorage)
+  - Created useI18n composable for translation access
+  - Added defensive language validation for unsupported codes
 
 ## Development Team
 - Marcel Suandi Tambing - Team Leader & Frontend
