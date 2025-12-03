@@ -11,9 +11,13 @@
           <span class="logo-text">VulnShield Labs</span>
         </router-link>
         <div class="nav-links">
-          <router-link to="/" class="nav-link">Home</router-link>
-          <router-link to="/features" class="nav-link">Features</router-link>
-          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+          <router-link to="/" class="nav-link">{{ t.nav.home }}</router-link>
+          <router-link to="/features" class="nav-link">{{ t.nav.features }}</router-link>
+          <router-link to="/dashboard" class="nav-link">{{ t.nav.dashboard }}</router-link>
+          <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? 'Switch to Indonesian' : 'Ganti ke Bahasa Inggris'">
+            <span class="lang-flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇮🇩' }}</span>
+            <span class="lang-code">{{ currentLanguage.toUpperCase() }}</span>
+          </button>
         </div>
       </div>
     </nav>
@@ -22,14 +26,17 @@
     </main>
     <footer class="footer">
       <div class="footer-container">
-        <p>VulnShield Labs - Automated Vulnerability Mining for a Safer Digital Future</p>
-        <p class="footer-copy">Auto-Vulcan with SIEGE Technology</p>
+        <p>{{ t.footer.tagline }}</p>
+        <p class="footer-copy">{{ t.footer.tech }}</p>
       </div>
     </footer>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from './composables/useI18n'
+
+const { t, currentLanguage, toggleLanguage } = useI18n()
 </script>
 
 <style scoped>
@@ -74,6 +81,7 @@
 .nav-links {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .nav-link {
@@ -88,6 +96,36 @@
 .nav-link:hover,
 .nav-link.router-link-active {
   color: #0ea5e9;
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 0.5rem;
+  color: #0ea5e9;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-switcher:hover {
+  background: rgba(14, 165, 233, 0.25);
+  border-color: rgba(14, 165, 233, 0.5);
+}
+
+.lang-flag {
+  font-size: 1.125rem;
+}
+
+.lang-code {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .main-content {
@@ -120,6 +158,8 @@
   
   .nav-links {
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 </style>

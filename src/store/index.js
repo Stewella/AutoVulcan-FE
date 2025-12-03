@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+export { useLanguageStore } from './language'
+
 export const useArtifactStore = defineStore('artifacts', {
   state: () => ({
     artifacts: [],

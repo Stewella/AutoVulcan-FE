@@ -2,7 +2,7 @@
   <div class="modal-overlay" @click.self="emit('close')" @keydown.escape="emit('close')">
     <div class="modal" role="dialog" aria-labelledby="graph-modal-title" tabindex="-1" ref="modalRef">
       <div class="modal-header">
-        <h2 id="graph-modal-title">Call Graph Visualization</h2>
+        <h2 id="graph-modal-title">{{ t.callGraph.title }}</h2>
         <div class="header-info">
           <span class="repo-badge">{{ artifact.repository }}</span>
           <code class="commit-badge">{{ artifact.commit }}</code>
@@ -71,22 +71,22 @@
         <div class="legend">
           <div class="legend-item">
             <span class="legend-color entry"></span>
-            <span>Entry Point</span>
+            <span>{{ t.callGraph.legend.entry }}</span>
           </div>
           <div class="legend-item">
             <span class="legend-color intermediate"></span>
-            <span>Intermediate Call</span>
+            <span>{{ t.callGraph.legend.intermediate }}</span>
           </div>
           <div class="legend-item">
             <span class="legend-color vulnerable"></span>
-            <span>Vulnerable Code</span>
+            <span>{{ t.callGraph.legend.vulnerable }}</span>
           </div>
         </div>
       </div>
       
       <div class="modal-footer">
         <button @click="emit('close')" class="btn btn-secondary">
-          Close
+          {{ t.callGraph.close }}
         </button>
       </div>
     </div>
@@ -101,6 +101,9 @@ import { Controls } from '@vue-flow/controls'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import '@vue-flow/controls/dist/style.css'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   artifact: {

@@ -4,32 +4,32 @@
       <thead>
         <tr>
           <th @click="sort('repository')" class="sortable">
-            Repository
+            {{ t.artifactTable.repository }}
             <span class="sort-icon" v-if="sortKey === 'repository'">
               {{ sortOrder === 'asc' ? '↑' : '↓' }}
             </span>
           </th>
-          <th>Commit</th>
+          <th>{{ t.artifactTable.commit }}</th>
           <th @click="sort('status')" class="sortable">
-            Status
+            {{ t.artifactTable.status }}
             <span class="sort-icon" v-if="sortKey === 'status'">
               {{ sortOrder === 'asc' ? '↑' : '↓' }}
             </span>
           </th>
-          <th>CVEs</th>
+          <th>{{ t.artifactTable.cves }}</th>
           <th @click="sort('durationMs')" class="sortable">
-            Duration
+            {{ t.artifactTable.duration }}
             <span class="sort-icon" v-if="sortKey === 'durationMs'">
               {{ sortOrder === 'asc' ? '↑' : '↓' }}
             </span>
           </th>
           <th @click="sort('createdAt')" class="sortable">
-            Time
+            {{ t.artifactTable.time }}
             <span class="sort-icon" v-if="sortKey === 'createdAt'">
               {{ sortOrder === 'asc' ? '↑' : '↓' }}
             </span>
           </th>
-          <th>Actions</th>
+          <th>{{ t.artifactTable.actions }}</th>
         </tr>
       </thead>
       <tbody>
@@ -60,7 +60,7 @@
                 {{ cve }}
               </span>
               <span v-if="artifact.cves?.length > 3" class="cve-more">
-                +{{ artifact.cves.length - 3 }} more
+                {{ t.artifactTable.more.replace('{count}', artifact.cves.length - 3) }}
               </span>
             </div>
           </td>
@@ -75,18 +75,18 @@
               <button 
                 @click="emit('view', artifact)" 
                 class="action-btn view-btn"
-                title="View Details"
+                :title="t.artifactTable.view"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                   <circle cx="12" cy="12" r="3"></circle>
                 </svg>
-                View
+                {{ t.artifactTable.view }}
               </button>
               <button 
                 @click="emit('download', artifact)" 
                 class="action-btn download-btn"
-                title="Download Artifact"
+                title="Download"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -97,7 +97,7 @@
               <button 
                 @click="emit('graph', artifact)" 
                 class="action-btn graph-btn"
-                title="View Call Graph"
+                title="Graph"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="18" cy="5" r="3"></circle>
@@ -118,14 +118,17 @@
         <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
         <polyline points="13 2 13 9 20 9"></polyline>
       </svg>
-      <p>No artifacts found</p>
-      <span>Run an analysis to generate artifacts</span>
+      <p>{{ t.artifactTable.empty.title }}</p>
+      <span>{{ t.artifactTable.empty.desc }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t, currentLanguage } = useI18n()
 
 const props = defineProps({
   artifacts: {
@@ -191,7 +194,8 @@ function formatDuration(ms) {
 function formatTime(isoString) {
   if (!isoString) return '-'
   const date = new Date(isoString)
-  return date.toLocaleDateString('en-US', {
+  const locale = currentLanguage.value === 'id' ? 'id-ID' : 'en-US'
+  return date.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',

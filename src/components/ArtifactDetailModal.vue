@@ -2,7 +2,7 @@
   <div class="modal-overlay" @click.self="emit('close')" @keydown.escape="emit('close')">
     <div class="modal" role="dialog" aria-labelledby="modal-title" tabindex="-1" ref="modalRef">
       <div class="modal-header">
-        <h2 id="modal-title">Artifact Details</h2>
+        <h2 id="modal-title">{{ t.artifactDetail.title }}</h2>
         <button @click="emit('close')" class="close-btn" aria-label="Close modal">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -14,19 +14,19 @@
       <div class="modal-body">
         <div class="artifact-summary">
           <div class="summary-item">
-            <span class="label">Repository</span>
+            <span class="label">{{ t.artifactDetail.repository }}</span>
             <span class="value">{{ artifact.repository }}</span>
           </div>
           <div class="summary-item">
-            <span class="label">Commit</span>
+            <span class="label">{{ t.artifactDetail.commit }}</span>
             <code class="value commit">{{ artifact.commit }}</code>
           </div>
           <div class="summary-item">
-            <span class="label">Status</span>
+            <span class="label">{{ t.artifactDetail.status }}</span>
             <span :class="['badge', getStatusClass(artifact.status)]">{{ artifact.status }}</span>
           </div>
           <div class="summary-item">
-            <span class="label">Duration</span>
+            <span class="label">{{ t.artifactDetail.duration }}</span>
             <span class="value">{{ formatDuration(artifact.durationMs) }}</span>
           </div>
         </div>
@@ -38,19 +38,19 @@
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            Vulnerability Localization
+            {{ t.artifactDetail.vulnLocalization }}
           </h3>
           <div class="localization-info" v-if="localization">
             <div class="loc-item">
-              <span class="loc-label">Class:</span>
+              <span class="loc-label">{{ t.artifactDetail.class }}</span>
               <code>{{ localization.className }}</code>
             </div>
             <div class="loc-item">
-              <span class="loc-label">Method:</span>
+              <span class="loc-label">{{ t.artifactDetail.method }}</span>
               <code>{{ localization.method }}</code>
             </div>
             <div class="loc-item">
-              <span class="loc-label">Line:</span>
+              <span class="loc-label">{{ t.artifactDetail.line }}</span>
               <code class="line-number">{{ localization.line }}</code>
             </div>
           </div>
@@ -64,11 +64,11 @@
               <line x1="16" y1="13" x2="8" y2="13"></line>
               <line x1="16" y1="17" x2="8" y2="17"></line>
             </svg>
-            Evidence Report
+            {{ t.artifactDetail.evidenceReport }}
           </h3>
           <div class="evidence-info" v-if="evidence">
             <div class="coverage-bar">
-              <span class="coverage-label">Code Coverage</span>
+              <span class="coverage-label">{{ t.artifactDetail.codeCoverage }}</span>
               <div class="coverage-track">
                 <div class="coverage-fill" :style="{ width: evidence.coverage + '%' }"></div>
               </div>
@@ -76,14 +76,14 @@
             </div>
             
             <div class="exploit-status">
-              <span class="exploit-label">Exploit Status:</span>
+              <span class="exploit-label">{{ t.artifactDetail.exploitStatus }}</span>
               <span :class="['exploit-badge', evidence.exploitSuccess ? 'success' : 'failed']">
-                {{ evidence.exploitSuccess ? 'Successful' : 'Failed' }}
+                {{ evidence.exploitSuccess ? t.artifactDetail.successful : t.artifactDetail.failed }}
               </span>
             </div>
             
             <div class="execution-trace" v-if="evidence.executionTrace">
-              <h4>Execution Trace</h4>
+              <h4>{{ t.artifactDetail.executionTrace }}</h4>
               <ol class="trace-list">
                 <li v-for="(step, index) in evidence.executionTrace" :key="index">
                   <code>{{ step }}</code>
@@ -92,7 +92,7 @@
             </div>
 
             <div v-if="evidence.failureReason" class="failure-reason">
-              <strong>Failure Reason:</strong> {{ evidence.failureReason }}
+              <strong>{{ t.artifactDetail.failureReason }}</strong> {{ evidence.failureReason }}
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
-            CVEs Detected ({{ artifact.cves.length }})
+            {{ t.artifactDetail.cvesDetected }} ({{ artifact.cves.length }})
           </h3>
           <div class="cve-grid">
             <div v-for="cve in artifact.cves" :key="cve" class="cve-item">
@@ -114,7 +114,7 @@
       
       <div class="modal-footer">
         <button @click="emit('close')" class="btn btn-secondary">
-          Close
+          {{ t.artifactDetail.close }}
         </button>
       </div>
     </div>
@@ -123,6 +123,9 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   artifact: {

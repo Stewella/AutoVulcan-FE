@@ -4,24 +4,21 @@
       <div class="container">
         <div class="hero-content">
           <h1 class="hero-title">
-            <span class="hero-brand">VulnShield Labs</span>
-            <span class="hero-tagline">Automated Vulnerability Mining for a Safer Digital Future</span>
+            <span class="hero-brand">{{ t.landing.hero.brand }}</span>
+            <span class="hero-tagline">{{ t.landing.hero.tagline }}</span>
           </h1>
           <p class="hero-description">
-            Auto-Vulcan is our flagship platform for automated vulnerability mining. 
-            Using SIEGE (Simulated Exploit & Guided Emulation), we detect, validate, and help 
-            mitigate security vulnerabilities in Java applications, especially those using 
-            Open-Source Software components.
+            {{ t.landing.hero.description }}
           </p>
           <div class="hero-actions">
             <router-link to="/dashboard" class="btn btn-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
               </svg>
-              Launch Auto-Vulcan
+              {{ t.landing.hero.launchBtn }}
             </router-link>
             <router-link to="/features" class="btn btn-secondary">
-              Learn More
+              {{ t.landing.hero.learnMore }}
             </router-link>
           </div>
         </div>
@@ -45,29 +42,19 @@
 
     <section class="about">
       <div class="container">
-        <h2 class="section-title">About VulnShield Labs</h2>
+        <h2 class="section-title">{{ t.landing.about.title }}</h2>
         <div class="about-content">
-          <p>
-            VulnShield Labs is a cybersecurity company focused on developing automation and 
-            AI-based security solutions. We help organizations detect, validate, and mitigate 
-            system vulnerabilities with an efficient and measurable approach.
-          </p>
-          <p>
-            Supported by an experienced security research and engineering team, VulnShield Labs 
-            combines vulnerability mining methodology and threat intelligence to deliver 
-            comprehensive protection against modern cyber threats. More than 90% of modern 
-            software is built using Open-Source Software (OSS) components, and our platform 
-            specifically targets these dependencies to ensure your applications remain secure.
-          </p>
+          <p>{{ t.landing.about.p1 }}</p>
+          <p>{{ t.landing.about.p2 }}</p>
         </div>
       </div>
     </section>
 
     <section class="features-preview">
       <div class="container">
-        <h2 class="section-title">Auto-Vulcan Quick Features</h2>
+        <h2 class="section-title">{{ t.landing.features.title }}</h2>
         <p class="section-subtitle">
-          Comprehensive vulnerability analysis powered by SIEGE technology
+          {{ t.landing.features.subtitle }}
         </p>
         <div class="features-grid">
           <div class="feature-card">
@@ -78,8 +65,8 @@
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
             </div>
-            <h3>Automated Exploit Generation</h3>
-            <p>Uses genetic algorithms to automatically find exploitation scenarios without manual intervention</p>
+            <h3>{{ t.landing.features.exploitGen.title }}</h3>
+            <p>{{ t.landing.features.exploitGen.desc }}</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">
@@ -90,8 +77,8 @@
                 <line x1="16" y1="17" x2="8" y2="17"></line>
               </svg>
             </div>
-            <h3>Evidence-Based Reporting</h3>
-            <p>Provides execution traces, code coverage metrics, and proof of successful exploitation</p>
+            <h3>{{ t.landing.features.reporting.title }}</h3>
+            <p>{{ t.landing.features.reporting.desc }}</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">
@@ -101,8 +88,8 @@
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
               </svg>
             </div>
-            <h3>Vulnerability Localization</h3>
-            <p>Pinpoints exact location (class, method, line) of vulnerabilities from CVE databases</p>
+            <h3>{{ t.landing.features.localization.title }}</h3>
+            <p>{{ t.landing.features.localization.desc }}</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">
@@ -114,13 +101,13 @@
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
               </svg>
             </div>
-            <h3>Call Graph & CFG Analysis</h3>
-            <p>Builds and visualizes global call graphs and control flow graphs to map reachable paths</p>
+            <h3>{{ t.landing.features.callGraph.title }}</h3>
+            <p>{{ t.landing.features.callGraph.desc }}</p>
           </div>
         </div>
         <div class="features-cta">
           <router-link to="/features" class="btn btn-primary">
-            View All Features
+            {{ t.landing.features.viewAll }}
           </router-link>
         </div>
       </div>
@@ -128,25 +115,25 @@
 
     <section class="team">
       <div class="container">
-        <h2 class="section-title">Development Team</h2>
+        <h2 class="section-title">{{ t.landing.team.title }}</h2>
         <p class="section-subtitle">
-          Meet the experts behind Auto-Vulcan
+          {{ t.landing.team.subtitle }}
         </p>
         <div class="team-grid">
           <TeamCard
             name="Marcel Suandi Tambing"
-            role="Team Leader & Frontend"
-            description="Has experience in Big Data projects to support data-driven decision making."
+            :role="t.landing.team.marcel.role"
+            :description="t.landing.team.marcel.desc"
           />
           <TeamCard
             name="Steffany Harwella"
-            role="Data Scientist & Core"
-            description="More than 5 years of experience in Statistics and Data Science."
+            :role="t.landing.team.steffany.role"
+            :description="t.landing.team.steffany.desc"
           />
           <TeamCard
             name="Marde Fasma'ul Aza"
-            role="Backend Engineer"
-            description="More than 4 years developing frontend and backend, databases, servers, and the software development lifecycle."
+            :role="t.landing.team.marde.role"
+            :description="t.landing.team.marde.desc"
           />
         </div>
       </div>
@@ -156,6 +143,9 @@
 
 <script setup>
 import TeamCard from '../components/TeamCard.vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>

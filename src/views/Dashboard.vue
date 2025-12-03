@@ -2,8 +2,8 @@
   <div class="dashboard">
     <div class="dashboard-header">
       <div class="container">
-        <h1 class="page-title">Auto-Vulcan Dashboard</h1>
-        <p class="page-subtitle">Automated Vulnerability Mining with SIEGE</p>
+        <h1 class="page-title">{{ t.dashboard.title }}</h1>
+        <p class="page-subtitle">{{ t.dashboard.subtitle }}</p>
       </div>
     </div>
 
@@ -15,7 +15,7 @@
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
-            Code Input
+            {{ t.dashboard.codeInput }}
           </h2>
           
           <CodeInputPanel 
@@ -37,7 +37,7 @@
                 <line x1="15" y1="9" x2="9" y2="15"></line>
                 <line x1="9" y1="9" x2="15" y2="15"></line>
               </svg>
-              Analysis {{ currentJob.status === 'running' ? 'Running' : currentJob.status === 'success' ? 'Complete' : 'Failed' }}
+              {{ getAnalysisStatusText(currentJob.status) }}
             </h3>
             <div class="progress-container" v-if="currentJob.status === 'running'">
               <div class="progress-bar">
@@ -47,7 +47,7 @@
             </div>
             <div class="status-details" v-if="currentJob.status !== 'running'">
               <p v-if="currentJob.status === 'success'">
-                Found {{ currentJob.cves?.length || 0 }} CVE(s) in {{ formatDuration(currentJob.duration) }}
+                {{ t.dashboard.analysis.foundCves.replace('{count}', currentJob.cves?.length || 0).replace('{duration}', formatDuration(currentJob.duration)) }}
               </p>
               <p v-else class="error-text">{{ currentJob.error }}</p>
             </div>
@@ -60,17 +60,17 @@
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                Artifact History
+                {{ t.dashboard.artifactHistory }}
               </h2>
               <div class="history-controls">
                 <input 
                   type="text" 
                   v-model="searchQuery" 
-                  placeholder="Search artifacts..." 
+                  :placeholder="t.dashboard.searchPlaceholder" 
                   class="search-input"
                 />
                 <select v-model="statusFilter" class="filter-select">
-                  <option value="">All Status</option>
+                  <option value="">{{ t.dashboard.allStatus }}</option>
                   <option value="Success">Success</option>
                   <option value="Failed">Failed</option>
                   <option value="Running">Running</option>
@@ -107,11 +107,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useArtifactStore } from '../store'
 import { api } from '../services/api'
+import { useI18n } from '../composables/useI18n'
 import CodeInputPanel from '../components/CodeInputPanel.vue'
 import ArtifactTable from '../components/ArtifactTable.vue'
 import ArtifactDetailModal from '../components/ArtifactDetailModal.vue'
 import CallGraphModal from '../components/CallGraphModal.vue'
 
+const { t } = useI18n()
 const store = useArtifactStore()
 
 const currentJob = ref(null)
@@ -144,6 +146,15 @@ const filteredArtifacts = computed(() => {
 onMounted(() => {
   store.initDemoData()
 })
+
+function getAnalysisStatusText(status) {
+  switch(status) {
+    case 'running': return t.value.dashboard.analysis.running
+    case 'success': return t.value.dashboard.analysis.complete
+    case 'failed': return t.value.dashboard.analysis.failed
+    default: return status
+  }
+}
 
 async function handleRunScan(inputData) {
   isRunning.value = true

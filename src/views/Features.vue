@@ -2,9 +2,9 @@
   <div class="features-page">
     <section class="hero-section">
       <div class="container">
-        <h1 class="page-title">Auto-Vulcan Features</h1>
+        <h1 class="page-title">{{ t.features.hero.title }}</h1>
         <p class="page-subtitle">
-          Comprehensive automated vulnerability mining powered by SIEGE technology
+          {{ t.features.hero.subtitle }}
         </p>
       </div>
     </section>
@@ -20,17 +20,10 @@
             </svg>
           </div>
           <div class="feature-content">
-            <h2>Vulnerability Localization</h2>
-            <p>
-              Auto-Vulcan precisely identifies the exact location of vulnerabilities obtained from CVE databases. 
-              The system pinpoints the specific class, method, and line number where the vulnerable code resides, 
-              enabling developers to quickly locate and understand the security issue.
-            </p>
+            <h2>{{ t.features.vulnLocalization.title }}</h2>
+            <p>{{ t.features.vulnLocalization.desc }}</p>
             <ul class="feature-list">
-              <li>Extracts vulnerability details from CVE identifiers</li>
-              <li>Maps vulnerabilities to specific code locations</li>
-              <li>Supports analysis of third-party library vulnerabilities</li>
-              <li>Provides context-aware vulnerability information</li>
+              <li v-for="(item, index) in t.features.vulnLocalization.list" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -46,18 +39,10 @@
             </svg>
           </div>
           <div class="feature-content">
-            <h2>Call Graph & Control Flow Graph</h2>
-            <p>
-              Using Soot static code analyzer, Auto-Vulcan builds comprehensive Global Call Graphs and 
-              Control Flow Graphs that map all calling paths and branch logic in your application. 
-              This topological representation ensures that exploitation is executed on logically valid 
-              and reachable paths.
-            </p>
+            <h2>{{ t.features.callGraph.title }}</h2>
+            <p>{{ t.features.callGraph.desc }}</p>
             <ul class="feature-list">
-              <li>Constructs global call graphs for complete program analysis</li>
-              <li>Maps control flow to identify all possible execution paths</li>
-              <li>Verifies code reachability from client application</li>
-              <li>Visualizes call relationships between components</li>
+              <li v-for="(item, index) in t.features.callGraph.list" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -71,33 +56,25 @@
             </svg>
           </div>
           <div class="feature-content">
-            <h2>Exploit Generation</h2>
-            <p>
-              Powered by EvoSuite, a search-based testing engine using genetic algorithms, Auto-Vulcan 
-              automatically generates test cases that trigger vulnerable code paths. The system evolves 
-              candidates through selection, crossover, and mutation to find exploitation scenarios without 
-              manual intervention.
-            </p>
+            <h2>{{ t.features.exploitGen.title }}</h2>
+            <p>{{ t.features.exploitGen.desc }}</p>
             <ul class="feature-list">
-              <li>Genetic algorithm-based test case generation</li>
-              <li>Multi-level fitness function evaluation</li>
-              <li>Context similarity analysis for accurate targeting</li>
-              <li>Approach level and proximity-based optimization</li>
+              <li v-for="(item, index) in t.features.exploitGen.list" :key="index">{{ item }}</li>
             </ul>
             <div class="info-box">
-              <h4>Fitness Function Components</h4>
+              <h4>{{ t.features.exploitGen.fitnessTitle }}</h4>
               <div class="fitness-grid">
                 <div class="fitness-item">
-                  <strong>Context Similarity</strong>
-                  <span>Measures how many methods in the call context are captured by candidate execution</span>
+                  <strong>{{ t.features.exploitGen.fitness.contextSimilarity.title }}</strong>
+                  <span>{{ t.features.exploitGen.fitness.contextSimilarity.desc }}</span>
                 </div>
                 <div class="fitness-item">
-                  <strong>Approach Level</strong>
-                  <span>Evaluates how close the candidate approaches branch conditions containing vulnerable code</span>
+                  <strong>{{ t.features.exploitGen.fitness.approachLevel.title }}</strong>
+                  <span>{{ t.features.exploitGen.fitness.approachLevel.desc }}</span>
                 </div>
                 <div class="fitness-item">
-                  <strong>Proximity to Target</strong>
-                  <span>Calculates how close execution reaches the vulnerable line of code</span>
+                  <strong>{{ t.features.exploitGen.fitness.proximity.title }}</strong>
+                  <span>{{ t.features.exploitGen.fitness.proximity.desc }}</span>
                 </div>
               </div>
             </div>
@@ -113,17 +90,10 @@
             </svg>
           </div>
           <div class="feature-content">
-            <h2>Execution & Validation</h2>
-            <p>
-              Auto-Vulcan executes generated exploits in a controlled sandbox environment, verifying 
-              whether vulnerable code lines are actually executed. This execution tracking collects 
-              detailed traces and coverage data to confirm if vulnerabilities can be truly exploited.
-            </p>
+            <h2>{{ t.features.execution.title }}</h2>
+            <p>{{ t.features.execution.desc }}</p>
             <ul class="feature-list">
-              <li>Sandboxed execution environment for safety</li>
-              <li>Real-time execution trace collection</li>
-              <li>Code coverage measurement</li>
-              <li>Verification of vulnerability reachability</li>
+              <li v-for="(item, index) in t.features.execution.list" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -139,18 +109,10 @@
             </svg>
           </div>
           <div class="feature-content">
-            <h2>Evidence Reporting</h2>
-            <p>
-              Unlike traditional detection methods that often produce false positives, Auto-Vulcan provides 
-              evidence-based validation. The system generates comprehensive reports including execution traces, 
-              code coverage metrics, and proof of successful exploitation, enabling organizations to prioritize 
-              remediation based on verified risks.
-            </p>
+            <h2>{{ t.features.evidence.title }}</h2>
+            <p>{{ t.features.evidence.desc }}</p>
             <ul class="feature-list">
-              <li>Detailed execution trace documentation</li>
-              <li>Code coverage percentage metrics</li>
-              <li>Proof of exploitation success</li>
-              <li>Downloadable artifact bundles for analysis</li>
+              <li v-for="(item, index) in t.features.evidence.list" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -159,17 +121,17 @@
 
     <section class="siege-section">
       <div class="container">
-        <h2 class="section-title">How SIEGE Works</h2>
+        <h2 class="section-title">{{ t.features.siege.title }}</h2>
         <p class="section-subtitle">
-          SIEGE (Simulated Exploit & Guided Emulation) is the core methodology behind Auto-Vulcan
+          {{ t.features.siege.subtitle }}
         </p>
         
         <div class="siege-flow">
           <div class="flow-step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h3>Input CVE & Client Application</h3>
-              <p>Provide the target CVE identifier and your client application code</p>
+              <h3>{{ t.features.siege.steps.step1.title }}</h3>
+              <p>{{ t.features.siege.steps.step1.desc }}</p>
             </div>
           </div>
           <div class="flow-arrow">
@@ -181,8 +143,8 @@
           <div class="flow-step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h3>Static Analysis & Extraction</h3>
-              <p>Build Global Call Graph & CFG, extract target class/method/line</p>
+              <h3>{{ t.features.siege.steps.step2.title }}</h3>
+              <p>{{ t.features.siege.steps.step2.desc }}</p>
             </div>
           </div>
           <div class="flow-arrow">
@@ -194,8 +156,8 @@
           <div class="flow-step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h3>Coverage Goals</h3>
-              <p>Create targets: call context, branches, vulnerable lines</p>
+              <h3>{{ t.features.siege.steps.step3.title }}</h3>
+              <p>{{ t.features.siege.steps.step3.desc }}</p>
             </div>
           </div>
           <div class="flow-arrow">
@@ -207,8 +169,8 @@
           <div class="flow-step">
             <div class="step-number">4</div>
             <div class="step-content">
-              <h3>Genetic Algorithm Execution</h3>
-              <p>Evaluate fitness, apply selection/crossover/mutation</p>
+              <h3>{{ t.features.siege.steps.step4.title }}</h3>
+              <p>{{ t.features.siege.steps.step4.desc }}</p>
             </div>
           </div>
           <div class="flow-arrow">
@@ -220,8 +182,8 @@
           <div class="flow-step highlight">
             <div class="step-number">5</div>
             <div class="step-content">
-              <h3>Execution Report</h3>
-              <p>Generate evidence with execution trace and coverage data</p>
+              <h3>{{ t.features.siege.steps.step5.title }}</h3>
+              <p>{{ t.features.siege.steps.step5.desc }}</p>
             </div>
           </div>
         </div>
@@ -230,13 +192,13 @@
 
     <section class="cta-section">
       <div class="container">
-        <h2>Ready to Secure Your Applications?</h2>
-        <p>Start analyzing your Java applications for vulnerabilities today</p>
+        <h2>{{ t.features.cta.title }}</h2>
+        <p>{{ t.features.cta.subtitle }}</p>
         <router-link to="/dashboard" class="btn btn-primary btn-large">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
           </svg>
-          Launch Dashboard
+          {{ t.features.cta.button }}
         </router-link>
       </div>
     </section>
@@ -244,6 +206,9 @@
 </template>
 
 <script setup>
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>

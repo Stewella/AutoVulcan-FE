@@ -5,24 +5,24 @@
         :class="['tab', { active: inputMode === 'json' }]"
         @click="inputMode = 'json'"
       >
-        JSON Input
+        {{ t.codeInput.jsonInput }}
       </button>
       <button 
         :class="['tab', { active: inputMode === 'form' }]"
         @click="inputMode = 'form'"
       >
-        Form Input
+        {{ t.codeInput.formInput }}
       </button>
       <button 
         :class="['tab', { active: inputMode === 'upload' }]"
         @click="inputMode = 'upload'"
       >
-        Upload File
+        {{ t.codeInput.uploadFile }}
       </button>
     </div>
 
     <div v-if="inputMode === 'json'" class="json-input">
-      <label for="json-textarea" class="input-label">Paste JSON Configuration</label>
+      <label for="json-textarea" class="input-label">{{ t.codeInput.pasteJson }}</label>
       <textarea
         id="json-textarea"
         v-model="jsonInput"
@@ -35,7 +35,7 @@
 
     <div v-if="inputMode === 'form'" class="form-input">
       <div class="form-group">
-        <label for="repository" class="input-label">Repository Name *</label>
+        <label for="repository" class="input-label">{{ t.codeInput.repositoryName }} *</label>
         <input 
           id="repository"
           v-model="formData.repository" 
@@ -46,7 +46,7 @@
       </div>
       
       <div class="form-group">
-        <label for="commit" class="input-label">Commit Hash *</label>
+        <label for="commit" class="input-label">{{ t.codeInput.commitHash }} *</label>
         <input 
           id="commit"
           v-model="formData.commit" 
@@ -57,7 +57,7 @@
       </div>
       
       <div class="form-group">
-        <label for="targetCVE" class="input-label">Target CVE</label>
+        <label for="targetCVE" class="input-label">{{ t.codeInput.targetCve }}</label>
         <input 
           id="targetCVE"
           v-model="formData.targetCVE" 
@@ -68,7 +68,7 @@
       </div>
       
       <div class="form-group">
-        <label for="timeout" class="input-label">Timeout (seconds)</label>
+        <label for="timeout" class="input-label">{{ t.codeInput.timeout }}</label>
         <input 
           id="timeout"
           v-model.number="formData.timeoutSeconds" 
@@ -82,7 +82,7 @@
     </div>
 
     <div v-if="inputMode === 'upload'" class="upload-input">
-      <label class="input-label">Upload File .zip</label>
+      <label class="input-label">{{ t.codeInput.uploadZip }}</label>
       <div 
         class="upload-area"
         :class="{ 'drag-over': isDragging }"
@@ -103,7 +103,7 @@
             <polyline points="17 8 12 3 7 8"></polyline>
             <line x1="12" y1="3" x2="12" y2="15"></line>
           </svg>
-          <p>Drag & drop .zip here or click to browse</p>
+          <p>{{ t.codeInput.dragDrop }}</p>
         </div>
       </div>
       <div v-if="uploadedFile" class="uploaded-file">
@@ -118,7 +118,7 @@
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
           <polyline points="14 2 14 8 20 8"></polyline>
         </svg>
-        Load Sample JSON
+        {{ t.codeInput.loadSample }}
       </button>
     </div>
 
@@ -131,13 +131,16 @@
         <polygon points="5 3 19 12 5 21 5 3"></polygon>
       </svg>
       <span v-else class="spinner"></span>
-      {{ disabled ? 'Running Analysis...' : 'Run Analysis' }}
+      {{ disabled ? t.codeInput.runningAnalysis : t.codeInput.runAnalysis }}
     </button>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 
 const emit = defineEmits(['run'])
 
