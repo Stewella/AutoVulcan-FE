@@ -89,6 +89,8 @@ export default {
     repositoryName: 'Repository Name',
     commitHash: 'Commit Hash',
     targetCve: 'Target CVE',
+    targetMethod: 'Target Method',
+    targetLine: 'Target Line',
     timeout: 'Timeout (seconds)',
     uploadZip: 'Upload File .zip',
     dragDrop: 'Drag & drop .zip here or click to browse',

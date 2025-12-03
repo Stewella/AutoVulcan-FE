@@ -46,17 +46,6 @@
       </div>
       
       <div class="form-group">
-        <label for="commit" class="input-label">{{ t.codeInput.commitHash }} *</label>
-        <input 
-          id="commit"
-          v-model="formData.commit" 
-          type="text" 
-          class="form-control"
-          placeholder="a1b2c3d"
-        />
-      </div>
-      
-      <div class="form-group">
         <label for="targetCVE" class="input-label">{{ t.codeInput.targetCve }}</label>
         <input 
           id="targetCVE"
@@ -64,6 +53,29 @@
           type="text" 
           class="form-control"
           placeholder="CVE-2024-XXXX"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="targetMethod" class="input-label">{{ t.codeInput.targetMethod }}</label>
+        <input 
+          id="targetMethod"
+          v-model="formData.targetMethod" 
+          type="text" 
+          class="form-control"
+          placeholder="com.example.ClassName.methodName"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="targetLine" class="input-label">{{ t.codeInput.targetLine }}</label>
+        <input 
+          id="targetLine"
+          v-model.number="formData.targetLine" 
+          type="number" 
+          class="form-control"
+          min="1"
+          placeholder="42"
         />
       </div>
       
@@ -109,6 +121,42 @@
       <div v-if="uploadedFile" class="uploaded-file">
         <span>{{ uploadedFile.name }}</span>
         <button @click="clearUploadedFile" class="clear-btn">&times;</button>
+      </div>
+      
+      <div class="upload-options">
+        <div class="form-group">
+          <label for="uploadTargetCVE" class="input-label">{{ t.codeInput.targetCve }}</label>
+          <input 
+            id="uploadTargetCVE"
+            v-model="uploadData.targetCVE" 
+            type="text" 
+            class="form-control"
+            placeholder="CVE-2024-XXXX"
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="uploadTargetMethod" class="input-label">{{ t.codeInput.targetMethod }}</label>
+          <input 
+            id="uploadTargetMethod"
+            v-model="uploadData.targetMethod" 
+            type="text" 
+            class="form-control"
+            placeholder="com.example.ClassName.methodName"
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="uploadTargetLine" class="input-label">{{ t.codeInput.targetLine }}</label>
+          <input 
+            id="uploadTargetLine"
+            v-model.number="uploadData.targetLine" 
+            type="number" 
+            class="form-control"
+            min="1"
+            placeholder="42"
+          />
+        </div>
       </div>
     </div>
 
@@ -160,9 +208,16 @@ const fileInput = ref(null)
 
 const formData = ref({
   repository: '',
-  commit: '',
   targetCVE: '',
+  targetMethod: '',
+  targetLine: null,
   timeoutSeconds: 120
+})
+
+const uploadData = ref({
+  targetCVE: '',
+  targetMethod: '',
+  targetLine: null
 })
 
 const sampleJson = {
@@ -190,7 +245,7 @@ const isValid = computed(() => {
       return false
     }
   } else if (inputMode.value === 'form') {
-    return formData.value.repository && formData.value.commit
+    return formData.value.repository
   } else if (inputMode.value === 'upload') {
     return uploadedFile.value !== null
   }
@@ -232,10 +287,11 @@ function handleRun() {
   } else if (inputMode.value === 'form') {
     inputData = {
       repository: formData.value.repository,
-      commit: formData.value.commit,
       files: [],
       scanOptions: {
         targetCVE: formData.value.targetCVE || null,
+        targetMethod: formData.value.targetMethod || null,
+        targetLine: formData.value.targetLine || null,
         timeoutSeconds: formData.value.timeoutSeconds
       }
     }
@@ -244,7 +300,18 @@ function handleRun() {
     reader.onload = (e) => {
       const result = validateJson(e.target.result)
       if (result.valid) {
-        emit('run', result.data)
+        const data = result.data
+        data.scanOptions = data.scanOptions || {}
+        if (uploadData.value.targetCVE) {
+          data.scanOptions.targetCVE = uploadData.value.targetCVE
+        }
+        if (uploadData.value.targetMethod) {
+          data.scanOptions.targetMethod = uploadData.value.targetMethod
+        }
+        if (uploadData.value.targetLine) {
+          data.scanOptions.targetLine = uploadData.value.targetLine
+        }
+        emit('run', data)
       } else {
         jsonError.value = result.error
       }
@@ -440,6 +507,15 @@ function clearUploadedFile() {
 
 .clear-btn:hover {
   color: var(--error);
+}
+
+.upload-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 
 .sample-json {

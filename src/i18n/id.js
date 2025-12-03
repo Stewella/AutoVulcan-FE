@@ -89,6 +89,8 @@ export default {
     repositoryName: 'Nama Repositori',
     commitHash: 'Hash Commit',
     targetCve: 'Target CVE',
+    targetMethod: 'Target Method',
+    targetLine: 'Target Line',
     timeout: 'Batas Waktu (detik)',
     uploadZip: 'Unggah File .zip',
     dragDrop: 'Seret & lepas .zip di sini atau klik untuk menelusuri',
