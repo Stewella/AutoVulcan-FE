@@ -15,7 +15,11 @@
           <router-link to="/features" class="nav-link">{{ t.nav.features }}</router-link>
           <router-link to="/dashboard" class="nav-link">{{ t.nav.dashboard }}</router-link>
           <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? t.common.switchToIndonesian : t.common.switchToEnglish">
-            <span class="lang-flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇮🇩' }}</span>
+            <svg class="globe-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
             <span class="lang-code">{{ currentLanguage.toUpperCase() }}</span>
           </button>
         </div>
@@ -101,31 +105,32 @@ const { t, currentLanguage, toggleLanguage } = useI18n()
 .lang-switcher {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  background: rgba(14, 165, 233, 0.15);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  border-radius: 0.5rem;
-  color: #0ea5e9;
-  font-weight: 500;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  background: rgba(51, 65, 85, 0.6);
+  border: none;
+  border-radius: 0.375rem;
+  color: #94a3b8;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .lang-switcher:hover {
-  background: rgba(14, 165, 233, 0.25);
-  border-color: rgba(14, 165, 233, 0.5);
+  background: rgba(71, 85, 105, 0.7);
+  color: #e2e8f0;
 }
 
-.lang-flag {
-  font-size: 1.125rem;
+.globe-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
 }
 
 .lang-code {
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 .main-content {
