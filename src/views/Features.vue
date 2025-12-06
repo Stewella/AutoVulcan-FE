@@ -367,9 +367,9 @@ const { t } = useI18n()
 
 .siege-flow {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -381,7 +381,7 @@ const { t } = useI18n()
   border-radius: 1rem;
   padding: 1.5rem;
   width: 180px;
-  min-height: 180px;
+  height: 200px;
   text-align: center;
   transition: all 0.3s ease;
   display: flex;
@@ -467,6 +467,7 @@ const { t } = useI18n()
   .siege-flow {
     flex-direction: column;
     align-items: center;
+    flex-wrap: wrap;
   }
   
   .flow-arrow {
@@ -477,6 +478,8 @@ const { t } = useI18n()
   .flow-step {
     width: 100%;
     max-width: 300px;
+    height: auto;
+    min-height: 150px;
   }
 }
 
