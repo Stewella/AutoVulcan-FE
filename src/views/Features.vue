@@ -381,8 +381,11 @@ const { t } = useI18n()
   border-radius: 1rem;
   padding: 1.5rem;
   width: 180px;
+  min-height: 180px;
   text-align: center;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .flow-step:hover {
@@ -398,6 +401,8 @@ const { t } = useI18n()
 .step-number {
   width: 40px;
   height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   background: var(--gradient-primary);
   border-radius: 50%;
   display: flex;
@@ -406,6 +411,12 @@ const { t } = useI18n()
   font-weight: 700;
   color: white;
   margin: 0 auto 1rem;
+}
+
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .step-content h3 {
