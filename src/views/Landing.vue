@@ -136,6 +136,7 @@
             name="Marde Fasma'ul Aza"
             :role="t.landing.team.marde.role"
             :description="t.landing.team.marde.desc"
+            image="/images/marde.jpg"
           />
         </div>
       </div>
