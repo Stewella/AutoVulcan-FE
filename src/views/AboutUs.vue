@@ -7,14 +7,6 @@
           <p>{{ t.landing.about.p1 }}</p>
           <p>{{ t.landing.about.p2 }}</p>
         </div>
-        <div class="about-cta">
-          <router-link to="/features" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            {{ t.landing.features.viewAll }}
-          </router-link>
-        </div>
       </div>
     </section>
 
@@ -43,6 +35,14 @@
             :description="t.landing.team.marde.desc"
             image="/images/marde.jpg"
           />
+        </div>
+        <div class="team-cta">
+          <router-link to="/features" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            {{ t.landing.features.viewAll }}
+          </router-link>
         </div>
       </div>
     </section>
@@ -100,9 +100,9 @@ const { t } = useI18n()
   margin-bottom: 1.5rem;
 }
 
-.about-cta {
+.team-cta {
   text-align: center;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
 }
 
 .btn {
