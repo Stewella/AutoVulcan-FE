@@ -75,7 +75,7 @@ function handleLogin() {
       const redirectPath = route.query.redirect || '/dashboard'
       router.push(redirectPath)
     } else {
-      error.value = t.auth.invalidCredentials
+      error.value = t.value.auth.invalidCredentials
     }
     
     loading.value = false

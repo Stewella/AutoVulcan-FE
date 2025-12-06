@@ -93,12 +93,12 @@ function handleSignup() {
   error.value = ''
   
   if (password.value !== confirmPassword.value) {
-    error.value = t.auth.passwordMismatch
+    error.value = t.value.auth.passwordMismatch
     return
   }
   
   if (password.value.length < 6) {
-    error.value = t.auth.passwordTooShort
+    error.value = t.value.auth.passwordTooShort
     return
   }
   
@@ -111,7 +111,7 @@ function handleSignup() {
       const redirectPath = route.query.redirect || '/dashboard'
       router.push(redirectPath)
     } else {
-      error.value = t.auth.emailExists
+      error.value = t.value.auth.emailExists
     }
     
     loading.value = false
