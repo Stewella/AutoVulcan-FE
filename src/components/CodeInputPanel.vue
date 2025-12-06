@@ -1,12 +1,7 @@
 <template>
   <div class="code-input-panel">
     <div class="input-mode-tabs">
-      <button 
-        :class="['tab', { active: inputMode === 'json' }]"
-        @click="inputMode = 'json'"
-      >
-        {{ t.codeInput.jsonInput }}
-      </button>
+
       <button 
         :class="['tab', { active: inputMode === 'form' }]"
         @click="inputMode = 'form'"
@@ -21,17 +16,7 @@
       </button>
     </div>
 
-    <div v-if="inputMode === 'json'" class="json-input">
-      <label for="json-textarea" class="input-label">{{ t.codeInput.pasteJson }}</label>
-      <textarea
-        id="json-textarea"
-        v-model="jsonInput"
-        class="json-textarea"
-        placeholder='{"repository": "example-repo", "commit": "a1b2c3d", ...}'
-        rows="12"
-      ></textarea>
-      <div v-if="jsonError" class="error-message">{{ jsonError }}</div>
-    </div>
+
 
     <div v-if="inputMode === 'form'" class="form-input">
       <div class="form-group">
@@ -160,15 +145,7 @@
       </div>
     </div>
 
-    <div class="sample-json">
-      <button @click="loadSampleJson" class="btn btn-secondary btn-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-        </svg>
-        {{ t.codeInput.loadSample }}
-      </button>
-    </div>
+
 
     <button 
       @click="handleRun" 
@@ -199,8 +176,7 @@ const props = defineProps({
   }
 })
 
-const inputMode = ref('json')
-const jsonInput = ref('')
+const inputMode = ref('form')
 const jsonError = ref('')
 const isDragging = ref(false)
 const uploadedFile = ref(null)
@@ -237,14 +213,8 @@ const sampleJson = {
 }
 
 const isValid = computed(() => {
-  if (inputMode.value === 'json') {
-    try {
-      const parsed = JSON.parse(jsonInput.value)
-      return parsed.repository && parsed.commit
-    } catch {
-      return false
-    }
-  } else if (inputMode.value === 'form') {
+
+  if (inputMode.value === 'form') {
     return formData.value.repository
   } else if (inputMode.value === 'upload') {
     return uploadedFile.value !== null
@@ -252,11 +222,7 @@ const isValid = computed(() => {
   return false
 })
 
-function loadSampleJson() {
-  jsonInput.value = JSON.stringify(sampleJson, null, 2)
-  jsonError.value = ''
-  inputMode.value = 'json'
-}
+
 
 function validateJson(input) {
   try {
@@ -276,15 +242,8 @@ function validateJson(input) {
 function handleRun() {
   let inputData = null
   
-  if (inputMode.value === 'json') {
-    const result = validateJson(jsonInput.value)
-    if (!result.valid) {
-      jsonError.value = result.error
-      return
-    }
-    jsonError.value = ''
-    inputData = result.data
-  } else if (inputMode.value === 'form') {
+
+  if (inputMode.value === 'form') {
     inputData = {
       repository: formData.value.repository,
       files: [],
