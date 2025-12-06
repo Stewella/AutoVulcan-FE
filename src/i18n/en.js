@@ -258,7 +258,7 @@ export default {
         },
         step4: {
           title: 'Genetic Algorithm Execution',
-          desc: 'Evaluate fitness, apply selection/crossover/mutation'
+          desc: 'Evaluate fitness, apply selection/crossover /mutation'
         },
         step5: {
           title: 'Execution Report',

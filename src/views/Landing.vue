@@ -124,6 +124,7 @@
             name="Marcel Suandi Tambing"
             :role="t.landing.team.marcel.role"
             :description="t.landing.team.marcel.desc"
+            image="/images/marcel.jpg"
           />
           <TeamCard
             name="Steffany Harwella"

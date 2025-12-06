@@ -258,7 +258,7 @@ export default {
         },
         step4: {
           title: 'Eksekusi Algoritma Genetika',
-          desc: 'Evaluasi fitness, terapkan seleksi/crossover/mutasi'
+          desc: 'Evaluasi fitness, terapkan seleksi/crossover /mutasi'
         },
         step5: {
           title: 'Laporan Eksekusi',

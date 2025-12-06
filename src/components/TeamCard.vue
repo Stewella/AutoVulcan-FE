@@ -1,7 +1,8 @@
 <template>
   <div class="team-card">
-    <div class="avatar">
-      <span class="avatar-initials">{{ initials }}</span>
+    <div class="avatar" :class="{ 'has-image': image }">
+      <img v-if="image" :src="image" :alt="name" class="avatar-image" />
+      <span v-else class="avatar-initials">{{ initials }}</span>
     </div>
     <h3 class="name">{{ name }}</h3>
     <p class="role">{{ role }}</p>
@@ -22,6 +23,10 @@ const props = defineProps({
     required: true
   },
   description: {
+    type: String,
+    default: ''
+  },
+  image: {
     type: String,
     default: ''
   }
@@ -67,6 +72,17 @@ const initials = computed(() => {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
+}
+
+.avatar.has-image {
+  background: transparent;
+  overflow: hidden;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .name {
