@@ -7,6 +7,14 @@
           <p>{{ t.landing.about.p1 }}</p>
           <p>{{ t.landing.about.p2 }}</p>
         </div>
+        <div class="about-cta">
+          <router-link to="/features" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            {{ t.landing.features.viewAll }}
+          </router-link>
+        </div>
       </div>
     </section>
 
@@ -90,6 +98,33 @@ const { t } = useI18n()
   font-size: 1.125rem;
   line-height: 1.8;
   margin-bottom: 1.5rem;
+}
+
+.about-cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
 }
 
 .team {
