@@ -145,7 +145,7 @@ function buildArtifact(artifactId, inputData, job) {
   }
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 function joinUrl(base, path) {
   const b = base.endsWith('/') ? base.slice(0, -1) : base
   const p = path.startsWith('/') ? path : '/' + path
