@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Landing from '../views/Landing.vue'
+import AboutUs from '../views/AboutUs.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Features from '../views/Features.vue'
 import Login from '../views/Login.vue'
@@ -10,6 +11,11 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: Landing
+  },
+  {
+    path: '/about',
+    name: 'AboutUs',
+    component: AboutUs
   },
   {
     path: '/login',
@@ -32,8 +38,7 @@ const routes = [
   {
     path: '/features',
     name: 'Features',
-    component: Features,
-    meta: { requiresAuth: true }
+    component: Features
   }
 ]
 

@@ -17,7 +17,7 @@
               </svg>
               {{ t.landing.hero.launchBtn }}
             </router-link>
-            <router-link :to="isAuthenticated ? '/features' : '/login'" class="btn btn-secondary">
+            <router-link to="/features" class="btn btn-secondary">
               {{ t.landing.hero.learnMore }}
             </router-link>
           </div>
@@ -36,16 +36,6 @@
               <text x="50" y="65" text-anchor="middle" fill="white" font-size="28" font-weight="bold">AV</text>
             </svg>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="about">
-      <div class="container">
-        <h2 class="section-title">{{ t.landing.about.title }}</h2>
-        <div class="about-content">
-          <p>{{ t.landing.about.p1 }}</p>
-          <p>{{ t.landing.about.p2 }}</p>
         </div>
       </div>
     </section>
@@ -106,38 +96,9 @@
           </div>
         </div>
         <div class="features-cta">
-          <router-link :to="isAuthenticated ? '/features' : '/login'" class="btn btn-primary">
+          <router-link to="/features" class="btn btn-primary">
             {{ t.landing.features.viewAll }}
           </router-link>
-        </div>
-      </div>
-    </section>
-
-    <section class="team">
-      <div class="container">
-        <h2 class="section-title">{{ t.landing.team.title }}</h2>
-        <p class="section-subtitle">
-          {{ t.landing.team.subtitle }}
-        </p>
-        <div class="team-grid">
-          <TeamCard
-            name="Marcel Suandi Tambing"
-            :role="t.landing.team.marcel.role"
-            :description="t.landing.team.marcel.desc"
-            image="/images/marcel.jpg"
-          />
-          <TeamCard
-            name="Steffany Harwella"
-            :role="t.landing.team.steffany.role"
-            :description="t.landing.team.steffany.desc"
-            image="/images/steffany.jpg"
-          />
-          <TeamCard
-            name="Marde Fasma'ul Aza"
-            :role="t.landing.team.marde.role"
-            :description="t.landing.team.marde.desc"
-            image="/images/marde.jpg"
-          />
         </div>
       </div>
     </section>
@@ -146,7 +107,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import TeamCard from '../components/TeamCard.vue'
 import { useI18n } from '../composables/useI18n'
 import { useAuthStore } from '../store/auth'
 
@@ -243,23 +203,6 @@ const isAuthenticated = computed(() => authStore.isAuthenticated)
   50% { transform: translateY(-20px); }
 }
 
-.about {
-  padding: 6rem 2rem;
-  background: var(--bg-dark);
-}
-
-.about-content {
-  max-width: 900px;
-  margin: 2rem auto 0;
-}
-
-.about-content p {
-  color: var(--text-secondary);
-  font-size: 1.125rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
-
 .features-preview {
   padding: 6rem 2rem;
   background: var(--bg-card);
@@ -314,18 +257,6 @@ const isAuthenticated = computed(() => authStore.isAuthenticated)
   margin-top: 3rem;
 }
 
-.team {
-  padding: 6rem 2rem;
-  background: var(--bg-dark);
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
 @media (max-width: 1024px) {
   .hero .container {
     grid-template-columns: 1fr;
@@ -363,7 +294,7 @@ const isAuthenticated = computed(() => authStore.isAuthenticated)
     font-size: 2rem;
   }
   
-  .about, .features-preview, .team {
+  .features-preview {
     padding: 4rem 1rem;
   }
 }

@@ -38,6 +38,7 @@ Auto-Vulcan is VulnShield Labs' flagship platform for automated vulnerability mi
 │   │   └── index.js     # Translation exports
 │   ├── views/           # Page components
 │   │   ├── Landing.vue
+│   │   ├── AboutUs.vue
 │   │   ├── Dashboard.vue
 │   │   ├── Features.vue
 │   │   ├── Login.vue
@@ -62,18 +63,19 @@ Auto-Vulcan is VulnShield Labs' flagship platform for automated vulnerability mi
 - **Proxy Support**: Enabled via `allowedHosts: true` in vite.config.js
 
 ## Available Routes
-- `/` - Landing page with company info and feature overview
+- `/` - Landing page with hero and feature preview
+- `/about` - About Us page (company info and development team)
+- `/features` - Detailed feature documentation (public)
 - `/login` - User login page
 - `/signup` - User registration page
 - `/dashboard` - Auto-Vulcan dashboard for running scans (protected)
-- `/features` - Detailed feature documentation (protected)
 
 ## Authentication
 - Client-side authentication using Pinia store with localStorage persistence
-- Route guards protect Dashboard and Features pages
+- Route guards protect Dashboard page only
 - Navigation displays different items based on auth state:
-  - **Not logged in**: Home, Login
-  - **Logged in**: Home, Features, Dashboard, Language Switcher, Logout
+  - **Not logged in**: Home, About Us, Features, Language Switcher, Login
+  - **Logged in**: Home, About Us, Features, Dashboard, Language Switcher, Logout
 
 ## Key Features
 1. **Vulnerability Localization** - Pinpoints exact class, method, and line from CVE databases
@@ -90,10 +92,15 @@ Currently uses mock API handlers. To connect a real backend:
 
 ## Recent Changes
 - **Dec 6, 2025**:
+  - Created new "About Us" page with company info and development team sections
+  - Moved "About VulnShield Labs" and "Development Team" from Home to About Us page
+  - Made Features page publicly accessible (no login required)
+  - Added show/hide password toggle on Login page
+  - Updated navigation: Home | About Us | Features | Language | Login (or Dashboard/Logout when logged in)
+  - Added team member profile photos (Marcel, Steffany, Marde)
   - Implemented client-side authentication system with Login/Signup pages
   - Added auth store with Pinia persistence (localStorage)
-  - Added route guards protecting Dashboard and Features pages
-  - Conditional navigation based on authentication state
+  - Route guards now only protect Dashboard page
   - Added auth-related translations for both EN and ID
   - Redesigned language switcher with globe icon
   - Modified Dashboard form: removed Commit Hash, added Target Method and Target Line fields

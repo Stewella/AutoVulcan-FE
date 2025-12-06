@@ -9,6 +9,7 @@ export default {
   },
   nav: {
     home: 'Beranda',
+    aboutUs: 'Tentang Kami',
     features: 'Fitur',
     dashboard: 'Dasbor',
     login: 'Masuk',
