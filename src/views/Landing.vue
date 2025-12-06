@@ -130,6 +130,7 @@
             name="Steffany Harwella"
             :role="t.landing.team.steffany.role"
             :description="t.landing.team.steffany.desc"
+            image="/images/steffany.jpg"
           />
           <TeamCard
             name="Marde Fasma'ul Aza"
