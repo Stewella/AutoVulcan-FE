@@ -41,25 +41,25 @@ export default {
     passwordTooShort: 'Password must be at least 6 characters'
   },
   footer: {
-    tagline: 'VulnShield Labs - Automated Vulnerability Mining for a Safer Digital Future',
-    tech: 'Auto-Vulcan with SIEGE Technology'
+    tagline: 'VulnShield Labs - Automated Vulnerability Mining',
+    tech: 'Auto-Vulcan with SIEGE Method'
   },
   landing: {
     hero: {
       brand: 'VulnShield Labs',
-      tagline: 'Automated Vulnerability Mining for a Safer Digital Future',
-      description: 'Auto-Vulcan is our flagship platform for automated vulnerability mining. Using SIEGE (Simulated Exploit & Guided Emulation), we detect, validate, and help mitigate security vulnerabilities in Java applications, especially those using Open-Source Software components.',
+      tagline: 'Automated Vulnerability Mining',
+      description: 'Auto-Vulcan is our flagship platform for automated vulnerability mining. Using SIEGE method (Simulated Exploit & Guided Emulation), we detect, validate, and help mitigate security vulnerabilities in Java applications, especially those using Open-Source Software components.',
       launchBtn: 'Launch Auto-Vulcan',
       learnMore: 'Learn More'
     },
     about: {
       title: 'About VulnShield Labs',
-      p1: 'VulnShield Labs is a cybersecurity company focused on developing automation and AI-based security solutions. We help organizations detect, validate, and mitigate system vulnerabilities with an efficient and measurable approach.',
+      p1: 'VulnShield Labs is a company focused on developing automation and AI-based security solutions. We help organizations detect, validate, and mitigate system vulnerabilities with an efficient and measurable approach.',
       p2: 'Supported by an experienced security research and engineering team, VulnShield Labs combines vulnerability mining methodology and threat intelligence to deliver comprehensive protection against modern cyber threats. More than 90% of modern software is built using Open-Source Software (OSS) components, and our platform specifically targets these dependencies to ensure your applications remain secure.'
     },
     features: {
       title: 'Auto-Vulcan Quick Features',
-      subtitle: 'Comprehensive vulnerability analysis powered by SIEGE technology',
+      subtitle: 'Comprehensive vulnerability analysis powered by SIEGE method',
       viewAll: 'View All Features',
       exploitGen: {
         title: 'Automated Exploit Generation',
@@ -97,7 +97,7 @@ export default {
   },
   dashboard: {
     title: 'Auto-Vulcan Dashboard',
-    subtitle: 'Automated Vulnerability Mining with SIEGE',
+    subtitle: 'Automated Vulnerability Mining with SIEGE Method',
     codeInput: 'Code Input',
     artifactHistory: 'Artifact History',
     searchPlaceholder: 'Search artifacts...',
@@ -173,7 +173,7 @@ export default {
   features: {
     hero: {
       title: 'Auto-Vulcan Features',
-      subtitle: 'Comprehensive automated vulnerability mining powered by SIEGE technology'
+      subtitle: 'Comprehensive automated vulnerability mining powered by SIEGE method'
     },
     vulnLocalization: {
       title: 'Vulnerability Localization',
@@ -187,7 +187,7 @@ export default {
     },
     callGraph: {
       title: 'Call Graph & Control Flow Graph',
-      desc: 'Using Soot static code analyzer, Auto-Vulcan builds comprehensive Global Call Graphs and Control Flow Graphs that map all calling paths and branch logic in your application. This topological representation ensures that exploitation is executed on logically valid and reachable paths.',
+      desc: 'Using Sootup, Auto-Vulcan builds comprehensive Global Call Graphs and Control Flow Graphs that map all calling paths and branch logic in your application. This topological representation ensures that exploitation is executed on logically valid and reachable paths.',
       list: [
         'Constructs global call graphs for complete program analysis',
         'Maps control flow to identify all possible execution paths',
@@ -232,7 +232,7 @@ export default {
     },
     evidence: {
       title: 'Evidence Reporting',
-      desc: 'Unlike traditional detection methods that often produce false positives, Auto-Vulcan provides evidence-based validation. The system generates comprehensive reports including execution traces, code coverage metrics, and proof of successful exploitation, enabling organizations to prioritize remediation based on verified risks.',
+      desc: 'Unlike traditional detection methods that often produce false positives, Auto-Vulcan provides evidence-based validation. The system generates comprehensive reports including execution traces, code coverage metrics, and proof of successful exploitation, enabling organizations to prioritize refinement based on verified risks.',
       list: [
         'Detailed execution trace documentation',
         'Code coverage percentage metrics',
@@ -245,8 +245,8 @@ export default {
       subtitle: 'SIEGE (Simulated Exploit & Guided Emulation) is the core methodology behind Auto-Vulcan',
       steps: {
         step1: {
-          title: 'Input CVE & Client Application',
-          desc: 'Provide the target CVE identifier and your client application code'
+          title: 'Input CVE & Application',
+          desc: 'Provide the target CVE identifier and application code'
         },
         step2: {
           title: 'Static Analysis & Extraction',

@@ -41,15 +41,15 @@ export default {
     passwordTooShort: 'Kata sandi minimal 6 karakter'
   },
   footer: {
-    tagline: 'VulnShield Labs - Penambangan Kerentanan Otomatis untuk Masa Depan Digital yang Lebih Aman',
-    tech: 'Auto-Vulcan dengan Teknologi SIEGE'
+    tagline: 'VulnShield Labs - Automated Vulnerability Mining',
+    tech: 'Auto-Vulcan dengan Metode SIEGE'
   },
   landing: {
     hero: {
       brand: 'VulnShield Labs',
-      tagline: 'Penambangan Kerentanan Otomatis untuk Masa Depan Digital yang Lebih Aman',
-      description: 'Auto-Vulcan adalah platform unggulan kami untuk penambangan kerentanan otomatis. Menggunakan SIEGE (Simulated Exploit & Guided Emulation), kami mendeteksi, memvalidasi, dan membantu memitigasi kerentanan keamanan pada aplikasi Java, terutama yang menggunakan komponen Open-Source Software.',
-      launchBtn: 'Luncurkan Auto-Vulcan',
+      tagline: 'Automated Vulnerability Mining',
+      description: 'Auto-Vulcan adalah platform unggulan kami untuk pencarian kerentanan otomatis. Menggunakan SIEGE metode (Simulated Exploit & Guided Emulation), untuk mendeteksi, memvalidasi, dan membantu memitigasi kerentanan keamanan pada aplikasi Java, terutama yang menggunakan komponen Open-Source Software.',
+      launchBtn: 'Masuk ke Auto-Vulcan',
       learnMore: 'Pelajari Lebih Lanjut'
     },
     about: {
@@ -59,7 +59,7 @@ export default {
     },
     features: {
       title: 'Fitur Cepat Auto-Vulcan',
-      subtitle: 'Analisis kerentanan komprehensif yang didukung oleh teknologi SIEGE',
+      subtitle: 'Analisis kerentanan komprehensif yang didukung oleh metode SIEGE',
       viewAll: 'Lihat Semua Fitur',
       exploitGen: {
         title: 'Generasi Eksploit Otomatis',
@@ -75,7 +75,7 @@ export default {
       },
       callGraph: {
         title: 'Analisis Call Graph & CFG',
-        desc: 'Membangun dan memvisualisasikan call graph global dan control flow graph untuk memetakan jalur yang dapat dijangkau'
+        desc: 'Memvisualisasikan call graph global dan control flow graph untuk memetakan jalur yang dapat dijangkau'
       }
     },
     team: {
@@ -97,7 +97,7 @@ export default {
   },
   dashboard: {
     title: 'Dasbor Auto-Vulcan',
-    subtitle: 'Penambangan Kerentanan Otomatis dengan SIEGE',
+    subtitle: 'Pencarian Kerentanan Otomatis dengan Metode SIEGE',
     codeInput: 'Input Kode',
     artifactHistory: 'Riwayat Artefak',
     searchPlaceholder: 'Cari artefak...',
@@ -180,39 +180,39 @@ export default {
       desc: 'Auto-Vulcan secara tepat mengidentifikasi lokasi tepat kerentanan yang diperoleh dari database CVE. Sistem ini menentukan kelas, metode, dan nomor baris spesifik tempat kode rentan berada, memungkinkan pengembang untuk dengan cepat menemukan dan memahami masalah keamanan.',
       list: [
         'Mengekstrak detail kerentanan dari identifikasi CVE',
-        'Memetakan kerentanan ke lokasi kode spesifik',
+        'Mapping kerentanan',
         'Mendukung analisis kerentanan library pihak ketiga',
-        'Menyediakan informasi kerentanan yang sadar konteks'
+        'Menyediakan informasi kerentanan'
       ]
     },
     callGraph: {
       title: 'Call Graph & Control Flow Graph',
-      desc: 'Menggunakan penganalisis kode statis Soot, Auto-Vulcan membangun Global Call Graph dan Control Flow Graph yang komprehensif yang memetakan semua jalur pemanggilan dan logika cabang dalam aplikasi Anda. Representasi topologis ini memastikan bahwa eksploitasi dijalankan pada jalur yang valid secara logis dan dapat dijangkau.',
+      desc: 'Menggunakan Sootup, Auto-Vulcan membangun Global Call Graph dan Control Flow Graph yang komprehensif yang memetakan semua jalur pemanggilan. Representasi ini memastikan bahwa eksploitasi dijalankan pada jalur yang valid secara logis dan dapat dijangkau.',
       list: [
         'Membangun call graph global untuk analisis program lengkap',
         'Memetakan control flow untuk mengidentifikasi semua jalur eksekusi yang mungkin',
         'Memverifikasi keterjangkauan kode dari aplikasi klien',
-        'Memvisualisasikan hubungan pemanggilan antar komponen'
+        'Memvisualisasikan hubungan antar komponen'
       ]
     },
     exploitGen: {
       title: 'Generasi Eksploit',
-      desc: 'Didukung oleh EvoSuite, mesin pengujian berbasis pencarian yang menggunakan algoritma genetika, Auto-Vulcan secara otomatis menghasilkan test case yang memicu jalur kode rentan. Sistem ini mengevolusi kandidat melalui seleksi, crossover, dan mutasi untuk menemukan skenario eksploitasi tanpa intervensi manual.',
+      desc: 'Menggunakan EvoSuite, mesin pencarian yang menggunakan algoritma genetik, Auto-Vulcan secara otomatis menghasilkan test case yang memicu jalur kode rentan. Sistem ini mengevolusi kandidat melalui seleksi, crossover, dan mutasi untuk menemukan skenario eksploitasi tanpa intervensi manual.',
       list: [
-        'Generasi test case berbasis algoritma genetika',
-        'Evaluasi fungsi fitness multi-level',
-        'Analisis kesamaan konteks untuk penargetan akurat',
+        'Pembuatan test case berbasis algoritma genetik',
+        'Evaluasi fitness function multi-level',
+        'Analisis context similarity untuk target yang akurat',
         'Optimasi berbasis approach level dan proximity'
       ],
-      fitnessTitle: 'Komponen Fungsi Fitness',
+      fitnessTitle: 'Komponen Fitness Function',
       fitness: {
         contextSimilarity: {
-          title: 'Kesamaan Konteks',
-          desc: 'Mengukur berapa banyak metode dalam konteks panggilan yang ditangkap oleh eksekusi kandidat'
+          title: 'Context Similarity',
+          desc: 'Mengukur berapa banyak metode dalam konteks panggilan yang dapat ditangkap'
         },
         approachLevel: {
           title: 'Approach Level',
-          desc: 'Mengevaluasi seberapa dekat kandidat mendekati kondisi cabang yang berisi kode rentan'
+          desc: 'Mengevaluasi seberapa dekat eksekusi mendekati kondisi cabang yang berisi kode rentan'
         },
         proximity: {
           title: 'Proximity ke Target',
@@ -232,7 +232,7 @@ export default {
     },
     evidence: {
       title: 'Pelaporan Bukti',
-      desc: 'Tidak seperti metode deteksi tradisional yang sering menghasilkan false positive, Auto-Vulcan menyediakan validasi berbasis bukti. Sistem menghasilkan laporan komprehensif termasuk jejak eksekusi, metrik cakupan kode, dan bukti eksploitasi yang berhasil, memungkinkan organisasi untuk memprioritaskan remediasi berdasarkan risiko yang terverifikasi.',
+      desc: 'Tidak seperti metode deteksi tradisional yang sering menghasilkan false positive, Auto-Vulcan menyediakan validasi berbasis bukti. Sistem menghasilkan laporan komprehensif termasuk jejak eksekusi, metrik cakupan kode, dan bukti eksploitasi yang berhasil, memungkinkan organisasi untuk memprioritaskan perbaikan berdasarkan risiko yang terverifikasi.',
       list: [
         'Dokumentasi jejak eksekusi yang detail',
         'Metrik persentase cakupan kode',
@@ -245,31 +245,31 @@ export default {
       subtitle: 'SIEGE (Simulated Exploit & Guided Emulation) adalah metodologi inti di balik Auto-Vulcan',
       steps: {
         step1: {
-          title: 'Input CVE & Aplikasi Klien',
-          desc: 'Berikan identifikasi CVE target dan kode aplikasi klien Anda'
+          title: 'Input CVE & Aplikasi',
+          desc: 'Memberikan identifikasi CVE target dan kode aplikasi'
         },
         step2: {
           title: 'Analisis Statis & Ekstraksi',
-          desc: 'Bangun Global Call Graph & CFG, ekstrak target kelas/metode/baris'
+          desc: 'Membangun Global Call Graph & CFG, ekstrak target kelas/metode/baris'
         },
         step3: {
           title: 'Target Cakupan',
           desc: 'Buat target: konteks panggilan, cabang, baris rentan'
         },
         step4: {
-          title: 'Eksekusi Algoritma Genetika',
+          title: 'Eksekusi Algoritma Genetik',
           desc: 'Evaluasi fitness, terapkan seleksi/crossover /mutasi'
         },
         step5: {
           title: 'Laporan Eksekusi',
-          desc: 'Hasilkan bukti dengan jejak eksekusi dan data cakupan'
+          desc: 'Menghasilkan bukti dengan jejak eksekusi dan data cakupan'
         }
       }
     },
     cta: {
       title: 'Siap Mengamankan Aplikasi Anda?',
       subtitle: 'Mulai analisis aplikasi Java Anda untuk kerentanan hari ini',
-      button: 'Luncurkan Dasbor'
+      button: 'Jalankan Dasbor'
     }
   }
 }
