@@ -61,6 +61,7 @@ export default {
       title: 'Fitur Cepat Auto-Vulcan',
       subtitle: 'Analisis kerentanan komprehensif yang didukung oleh metode SIEGE',
       viewAll: 'Lihat Semua Fitur',
+    autoVulcanFeatures: 'Fitur Auto-Vulcan',
       exploitGen: {
         title: 'Generasi Eksploit Otomatis',
         desc: 'Menggunakan algoritma genetika untuk secara otomatis menemukan skenario eksploitasi tanpa intervensi manual'

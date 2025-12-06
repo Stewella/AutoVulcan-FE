@@ -61,6 +61,7 @@ export default {
       title: 'Auto-Vulcan Quick Features',
       subtitle: 'Comprehensive vulnerability analysis powered by SIEGE method',
       viewAll: 'View All Features',
+    autoVulcanFeatures: 'Auto-Vulcan Features',
       exploitGen: {
         title: 'Automated Exploit Generation',
         desc: 'Uses genetic algorithms to automatically find exploitation scenarios without manual intervention'
