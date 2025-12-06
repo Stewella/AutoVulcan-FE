@@ -5,89 +5,74 @@ const generateId = () => Math.random().toString(36).substring(2, 9)
 const mockJobs = new Map()
 const mockArtifacts = new Map()
 
-export const api = {
-  async runScan(inputData) {
-    await delay(500)
-    
-    const jobId = `job-${generateId()}`
-    const artifactId = `art-${generateId()}`
-    
-    mockJobs.set(jobId, {
-      id: jobId,
-      artifactId,
-      status: 'running',
-      inputData,
-      startTime: Date.now(),
-      progress: 0
-    })
-    
-    simulateJobProgress(jobId, inputData)
-    
-    return {
-      jobId,
-      status: 'running'
-    }
-  },
-  
-  async getJobStatus(jobId) {
-    await delay(200)
-    
-    const job = mockJobs.get(jobId)
-    if (!job) {
-      throw new Error(`Job ${jobId} not found`)
-    }
-    
-    return {
-      jobId: job.id,
-      status: job.status,
-      progress: job.progress,
-      duration: Date.now() - job.startTime,
-      artifactId: job.status === 'success' || job.status === 'failed' ? job.artifactId : null,
-      cves: job.cves || [],
-      error: job.error
-    }
-  },
-  
-  async getArtifact(artifactId) {
-    await delay(300)
-    
-    const artifact = mockArtifacts.get(artifactId)
-    if (!artifact) {
-      throw new Error(`Artifact ${artifactId} not found`)
-    }
-    
-    return artifact
+const JOB_PROGRESS_STEPS = [
+  { progress: 10, delay: 800, status: 'running' },
+  { progress: 25, delay: 1200, status: 'running' },
+  { progress: 50, delay: 1500, status: 'running' },
+  { progress: 75, delay: 1000, status: 'running' },
+  { progress: 90, delay: 800, status: 'running' },
+  { progress: 100, delay: 500, status: 'finalizing' }
+]
+
+async function runScan(inputData) {
+  await delay(500)
+  const jobId = `job-${generateId()}`
+  const artifactId = `art-${generateId()}`
+  const job = {
+    id: jobId,
+    artifactId,
+    status: 'running',
+    inputData,
+    startTime: Date.now(),
+    progress: 0
+  }
+  mockJobs.set(jobId, job)
+  simulateJobProgress(jobId, inputData)
+  return { jobId, status: 'running' }
+}
+
+async function getJobStatus(jobId) {
+  await delay(200)
+  const job = mockJobs.get(jobId)
+  if (!job) {
+    throw new Error(`Job ${jobId} not found`)
+  }
+  return {
+    jobId: job.id,
+    status: job.status,
+    progress: job.progress,
+    duration: Date.now() - job.startTime,
+    artifactId: job.status === 'success' || job.status === 'failed' ? job.artifactId : null,
+    cves: job.cves || [],
+    error: job.error
   }
 }
+
+async function getArtifact(artifactId) {
+  await delay(300)
+  const artifact = mockArtifacts.get(artifactId)
+  if (!artifact) {
+    throw new Error(`Artifact ${artifactId} not found`)
+  }
+  return artifact
+}
+
+export const api = { runScan, getJobStatus, getArtifact }
 
 async function simulateJobProgress(jobId, inputData) {
   const job = mockJobs.get(jobId)
   if (!job) return
-  
-  const steps = [
-    { progress: 10, delay: 800, status: 'running' },
-    { progress: 25, delay: 1200, status: 'running' },
-    { progress: 50, delay: 1500, status: 'running' },
-    { progress: 75, delay: 1000, status: 'running' },
-    { progress: 90, delay: 800, status: 'running' },
-    { progress: 100, delay: 500, status: 'finalizing' }
-  ]
-  
-  for (const step of steps) {
+  for (const step of JOB_PROGRESS_STEPS) {
     await delay(step.delay)
     job.progress = step.progress
     job.status = step.status
   }
-  
   const success = Math.random() > 0.15
-  
   if (success) {
     job.status = 'success'
-    job.cves = generateMockCVEs(inputData)
-    
-    const artifact = generateMockArtifact(job.artifactId, inputData, job)
+    job.cves = generateCVEs(inputData)
+    const artifact = buildArtifact(job.artifactId, inputData, job)
     mockArtifacts.set(job.artifactId, artifact)
-    
     job.artifact = artifact
   } else {
     job.status = 'failed'
@@ -95,7 +80,7 @@ async function simulateJobProgress(jobId, inputData) {
   }
 }
 
-function generateMockCVEs(inputData) {
+function generateCVEs(inputData) {
   const targetCVE = inputData.scanOptions?.targetCVE
   if (targetCVE && targetCVE !== 'CVE-2024-XXXX') {
     return [targetCVE]
@@ -112,7 +97,7 @@ function generateMockCVEs(inputData) {
   return mockCVEs.slice(0, count)
 }
 
-function generateMockArtifact(artifactId, inputData, job) {
+function buildArtifact(artifactId, inputData, job) {
   const files = inputData.files || []
   const mainFile = files[0] || { path: 'src/Main.java', content: '' }
   
@@ -158,6 +143,56 @@ function generateMockArtifact(artifactId, inputData, job) {
       }
     }
   }
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+function joinUrl(base, path) {
+  const b = base.endsWith('/') ? base.slice(0, -1) : base
+  const p = path.startsWith('/') ? path : '/' + path
+  return b + p
+}
+const endpoints = { register: '/api/v1/auth/register', token: '/api/v1/auth/token' }
+
+export async function registerUser(fields) {
+  const form = new FormData()
+  form.append('full_name', fields.full_name)
+  form.append('email', fields.email)
+  form.append('password', fields.password)
+  form.append('confirm_password', fields.confirm_password)
+  const res = await fetch(joinUrl(API_BASE_URL, endpoints.register), {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body: form
+  })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
+}
+
+let authToken = null
+let authTokenType = 'bearer'
+
+export function setAuthToken(token, type = 'bearer') {
+  authToken = token
+  authTokenType = type || 'bearer'
+}
+
+export function getAuthHeaders() {
+  return authToken ? { Authorization: `${authTokenType} ${authToken}` } : {}
+}
+
+export async function loginUser({ email, password }) {
+  const body = new URLSearchParams()
+  body.set('email', email)
+  body.set('password', password)
+  const res = await fetch(joinUrl(API_BASE_URL, endpoints.token), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+    body
+  })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
 }
 
 export default api

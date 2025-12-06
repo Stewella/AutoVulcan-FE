@@ -64,22 +64,22 @@ const password = ref('')
 const error = ref('')
 const loading = ref(false)
 
-function handleLogin() {
+async function handleLogin() {
   error.value = ''
   loading.value = true
-  
-  setTimeout(() => {
-    const result = authStore.login(email.value, password.value)
-    
+  try {
+    const result = await authStore.login(email.value.trim(), password.value)
     if (result.success) {
       const redirectPath = route.query.redirect || '/dashboard'
       router.push(redirectPath)
     } else {
-      error.value = t.value.auth.invalidCredentials
+      error.value = result.error || t.value.auth.invalidCredentials
     }
-    
+  } catch (_) {
+    error.value = t.value.auth.invalidCredentials
+  } finally {
     loading.value = false
-  }, 500)
+  }
 }
 </script>
 

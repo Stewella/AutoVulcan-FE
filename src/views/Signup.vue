@@ -76,6 +76,7 @@ import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../store/auth'
 import { useI18n } from '../composables/useI18n'
+import { registerUser, setAuthToken } from '../services/api'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -89,33 +90,44 @@ const confirmPassword = ref('')
 const error = ref('')
 const loading = ref(false)
 
-function handleSignup() {
+async function handleSignup() {
   error.value = ''
-  
   if (password.value !== confirmPassword.value) {
     error.value = t.value.auth.passwordMismatch
     return
   }
-  
   if (password.value.length < 6) {
     error.value = t.value.auth.passwordTooShort
     return
   }
-  
   loading.value = true
-  
-  setTimeout(() => {
-    const result = authStore.signup(name.value, email.value, password.value)
-    
-    if (result.success) {
+  try {
+    const res = await registerUser({
+      full_name: name.value.trim(),
+      email: email.value.trim(),
+      password: password.value,
+      confirm_password: confirmPassword.value
+    })
+    if (res.ok) {
+      const token = res.data?.access_token
+      const type = res.data?.token_type || 'bearer'
+      if (token) {
+        authStore.setToken(token, type)
+        setAuthToken(token, type)
+      }
+      authStore.user = { email: email.value.trim(), name: name.value.trim() }
+      authStore.isAuthenticated = true
       const redirectPath = route.query.redirect || '/dashboard'
       router.push(redirectPath)
     } else {
-      error.value = t.value.auth.emailExists
+      const msg = (res.data && (res.data.message || res.data.error)) || 'Registration failed'
+      error.value = msg
     }
-    
+  } catch (e) {
+    error.value = 'Network error'
+  } finally {
     loading.value = false
-  }, 500)
+  }
 }
 </script>
 
