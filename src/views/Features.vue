@@ -381,7 +381,7 @@ const { t } = useI18n()
   border-radius: 1rem;
   padding: 1.5rem;
   width: 180px;
-  height: 200px;
+  height: 300px;
   text-align: center;
   transition: all 0.3s ease;
   display: flex;
