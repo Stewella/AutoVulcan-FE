@@ -10,7 +10,35 @@ export default {
   nav: {
     home: 'Home',
     features: 'Features',
-    dashboard: 'Dashboard'
+    dashboard: 'Dashboard',
+    login: 'Login',
+    logout: 'Logout'
+  },
+  auth: {
+    loginTitle: 'Welcome Back',
+    loginSubtitle: 'Sign in to access Auto-Vulcan',
+    signupTitle: 'Create Account',
+    signupSubtitle: 'Join VulnShield Labs today',
+    email: 'Email',
+    emailPlaceholder: 'Enter your email',
+    password: 'Password',
+    passwordPlaceholder: 'Enter your password',
+    confirmPassword: 'Confirm Password',
+    confirmPasswordPlaceholder: 'Confirm your password',
+    name: 'Full Name',
+    namePlaceholder: 'Enter your full name',
+    login: 'Sign In',
+    loggingIn: 'Signing In...',
+    signup: 'Create Account',
+    signingUp: 'Creating Account...',
+    noAccount: "Don't have an account?",
+    signupLink: 'Sign up',
+    hasAccount: 'Already have an account?',
+    loginLink: 'Sign in',
+    invalidCredentials: 'Invalid email or password',
+    emailExists: 'Email is already registered',
+    passwordMismatch: 'Passwords do not match',
+    passwordTooShort: 'Password must be at least 6 characters'
   },
   footer: {
     tagline: 'VulnShield Labs - Automated Vulnerability Mining for a Safer Digital Future',

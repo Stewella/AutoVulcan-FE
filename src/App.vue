@@ -12,16 +12,31 @@
         </router-link>
         <div class="nav-links">
           <router-link to="/" class="nav-link">{{ t.nav.home }}</router-link>
-          <router-link to="/features" class="nav-link">{{ t.nav.features }}</router-link>
-          <router-link to="/dashboard" class="nav-link">{{ t.nav.dashboard }}</router-link>
-          <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? t.common.switchToIndonesian : t.common.switchToEnglish">
-            <svg class="globe-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            <span class="lang-code">{{ currentLanguage.toUpperCase() }}</span>
-          </button>
+          
+          <template v-if="isAuthenticated">
+            <router-link to="/features" class="nav-link">{{ t.nav.features }}</router-link>
+            <router-link to="/dashboard" class="nav-link">{{ t.nav.dashboard }}</router-link>
+            <button @click="toggleLanguage" class="lang-switcher" :title="currentLanguage === 'en' ? t.common.switchToIndonesian : t.common.switchToEnglish">
+              <svg class="globe-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <span class="lang-code">{{ currentLanguage.toUpperCase() }}</span>
+            </button>
+            <button @click="handleLogout" class="logout-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              {{ t.nav.logout }}
+            </button>
+          </template>
+          
+          <template v-else>
+            <router-link to="/login" class="nav-link login-link">{{ t.nav.login }}</router-link>
+          </template>
         </div>
       </div>
     </nav>
@@ -38,9 +53,21 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from './composables/useI18n'
+import { useAuthStore } from './store/auth'
 
 const { t, currentLanguage, toggleLanguage } = useI18n()
+const router = useRouter()
+const authStore = useAuthStore()
+
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
+function handleLogout() {
+  authStore.logout()
+  router.push('/')
+}
 </script>
 
 <style scoped>
@@ -84,7 +111,7 @@ const { t, currentLanguage, toggleLanguage } = useI18n()
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
@@ -100,6 +127,17 @@ const { t, currentLanguage, toggleLanguage } = useI18n()
 .nav-link:hover,
 .nav-link.router-link-active {
   color: #0ea5e9;
+}
+
+.login-link {
+  background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+  color: white !important;
+  padding: 0.5rem 1.25rem;
+}
+
+.login-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
 .lang-switcher {
@@ -131,6 +169,26 @@ const { t, currentLanguage, toggleLanguage } = useI18n()
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.025em;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 0.5rem;
+  color: #f87171;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .main-content {

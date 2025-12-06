@@ -10,7 +10,35 @@ export default {
   nav: {
     home: 'Beranda',
     features: 'Fitur',
-    dashboard: 'Dasbor'
+    dashboard: 'Dasbor',
+    login: 'Masuk',
+    logout: 'Keluar'
+  },
+  auth: {
+    loginTitle: 'Selamat Datang Kembali',
+    loginSubtitle: 'Masuk untuk mengakses Auto-Vulcan',
+    signupTitle: 'Buat Akun',
+    signupSubtitle: 'Bergabung dengan VulnShield Labs hari ini',
+    email: 'Email',
+    emailPlaceholder: 'Masukkan email Anda',
+    password: 'Kata Sandi',
+    passwordPlaceholder: 'Masukkan kata sandi Anda',
+    confirmPassword: 'Konfirmasi Kata Sandi',
+    confirmPasswordPlaceholder: 'Konfirmasi kata sandi Anda',
+    name: 'Nama Lengkap',
+    namePlaceholder: 'Masukkan nama lengkap Anda',
+    login: 'Masuk',
+    loggingIn: 'Sedang Masuk...',
+    signup: 'Buat Akun',
+    signingUp: 'Membuat Akun...',
+    noAccount: 'Belum punya akun?',
+    signupLink: 'Daftar',
+    hasAccount: 'Sudah punya akun?',
+    loginLink: 'Masuk',
+    invalidCredentials: 'Email atau kata sandi salah',
+    emailExists: 'Email sudah terdaftar',
+    passwordMismatch: 'Kata sandi tidak cocok',
+    passwordTooShort: 'Kata sandi minimal 6 karakter'
   },
   footer: {
     tagline: 'VulnShield Labs - Penambangan Kerentanan Otomatis untuk Masa Depan Digital yang Lebih Aman',

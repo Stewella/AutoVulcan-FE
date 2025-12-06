@@ -11,13 +11,13 @@
             {{ t.landing.hero.description }}
           </p>
           <div class="hero-actions">
-            <router-link to="/dashboard" class="btn btn-primary">
+            <router-link :to="isAuthenticated ? '/dashboard' : '/login'" class="btn btn-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
               </svg>
               {{ t.landing.hero.launchBtn }}
             </router-link>
-            <router-link to="/features" class="btn btn-secondary">
+            <router-link :to="isAuthenticated ? '/features' : '/login'" class="btn btn-secondary">
               {{ t.landing.hero.learnMore }}
             </router-link>
           </div>
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="features-cta">
-          <router-link to="/features" class="btn btn-primary">
+          <router-link :to="isAuthenticated ? '/features' : '/login'" class="btn btn-primary">
             {{ t.landing.features.viewAll }}
           </router-link>
         </div>
@@ -142,10 +142,15 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import TeamCard from '../components/TeamCard.vue'
 import { useI18n } from '../composables/useI18n'
+import { useAuthStore } from '../store/auth'
 
 const { t } = useI18n()
+const authStore = useAuthStore()
+
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 </script>
 
 <style scoped>
