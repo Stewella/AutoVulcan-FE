@@ -46,7 +46,7 @@ export default {
   },
   landing: {
     hero: {
-      brand: 'VulnShield Labs',
+      brand: 'Auto-Vulcan',
       tagline: 'Automated Vulnerability Mining',
       description: 'Auto-Vulcan is our flagship platform for automated vulnerability mining. Using SIEGE method (Simulated Exploit & Guided Emulation), we detect, validate, and help mitigate security vulnerabilities in Java applications, especially those using Open-Source Software components.',
       launchBtn: 'Launch Auto-Vulcan',

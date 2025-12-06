@@ -46,7 +46,7 @@ export default {
   },
   landing: {
     hero: {
-      brand: 'VulnShield Labs',
+      brand: 'Auto-Vulcan',
       tagline: 'Automated Vulnerability Mining',
       description: 'Auto-Vulcan adalah platform unggulan kami untuk pencarian kerentanan otomatis. Menggunakan SIEGE metode (Simulated Exploit & Guided Emulation), untuk mendeteksi, memvalidasi, dan membantu memitigasi kerentanan keamanan pada aplikasi Java, terutama yang menggunakan komponen Open-Source Software.',
       launchBtn: 'Masuk ke Auto-Vulcan',
