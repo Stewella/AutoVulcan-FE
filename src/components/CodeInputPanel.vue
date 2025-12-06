@@ -90,7 +90,7 @@
         <input 
           type="file" 
           ref="fileInput"
-          accept=".json"
+          accept=".zip"
           @change="handleFileSelect"
           class="file-input"
         />
@@ -142,6 +142,17 @@
             placeholder="42"
           />
         </div>
+        <div class="form-group">
+          <label for="uploadTimeout" class="input-label">{{ t.codeInput.timeout }}</label>
+          <input 
+            id="uploadTimeout"
+            v-model.number="uploadData.timeoutSeconds" 
+            type="number" 
+            class="form-control"
+            min="30"
+            max="600"
+          />
+        </div>
       </div>
     </div>
 
@@ -164,6 +175,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from '../composables/useI18n'
+import { submitRepoAnalysis, submitZipAnalysis } from '../services/api'
 
 const { t } = useI18n()
 
@@ -193,11 +205,12 @@ const formData = ref({
 const uploadData = ref({
   targetCVE: '',
   targetMethod: '',
-  targetLine: null
+  targetLine: null,
+  timeoutSeconds: 600
 })
 
 const sampleJson = {
-  repository: "example-repo",
+  repository: "https://github.com/githubtraining/hellogitworld.git",
   commit: "a1b2c3d",
   files: [
     {
@@ -239,44 +252,57 @@ function validateJson(input) {
   }
 }
 
-function handleRun() {
+async function handleRun() {
   let inputData = null
   
-
   if (inputMode.value === 'form') {
+    const repoUrl = (formData.value.repository || '').trim()
+    const targetCve = (formData.value.targetCVE || 'OTHER').trim()
+    const targetMethod = (formData.value.targetMethod || '').trim()
+    const targetLine = formData.value.targetLine ?? null
+    const timeout = formData.value.timeoutSeconds
+
+    try {
+      await submitRepoAnalysis({
+        repository_url: repoUrl,
+        target_cve: targetCve,
+        target_method: targetMethod,
+        target_line: targetLine,
+        timeout_seconds: timeout
+      })
+    } catch (_) {}
+
     inputData = {
-      repository: formData.value.repository,
+      repository: repoUrl,
       files: [],
       scanOptions: {
-        targetCVE: formData.value.targetCVE || null,
-        targetMethod: formData.value.targetMethod || null,
-        targetLine: formData.value.targetLine || null,
-        timeoutSeconds: formData.value.timeoutSeconds
+        targetCVE: targetCve || null,
+        targetMethod: targetMethod || null,
+        targetLine: targetLine || null,
+        timeoutSeconds: timeout
       }
     }
   } else if (inputMode.value === 'upload' && uploadedFile.value) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const result = validateJson(e.target.result)
-      if (result.valid) {
-        const data = result.data
-        data.scanOptions = data.scanOptions || {}
-        if (uploadData.value.targetCVE) {
-          data.scanOptions.targetCVE = uploadData.value.targetCVE
-        }
-        if (uploadData.value.targetMethod) {
-          data.scanOptions.targetMethod = uploadData.value.targetMethod
-        }
-        if (uploadData.value.targetLine) {
-          data.scanOptions.targetLine = uploadData.value.targetLine
-        }
-        emit('run', data)
-      } else {
-        jsonError.value = result.error
+    try {
+      await submitZipAnalysis({
+        file: uploadedFile.value,
+        target_cve: uploadData.value.targetCVE || null,
+        target_method: uploadData.value.targetMethod || null,
+        target_line: uploadData.value.targetLine ?? null,
+        timeout_seconds: uploadData.value.timeoutSeconds
+      })
+    } catch (_) {}
+
+    inputData = {
+      repository: uploadedFile.value.name,
+      files: [],
+      scanOptions: {
+        targetCVE: uploadData.value.targetCVE || null,
+        targetMethod: uploadData.value.targetMethod || null,
+        targetLine: uploadData.value.targetLine || null,
+        timeoutSeconds: uploadData.value.timeoutSeconds
       }
     }
-    reader.readAsText(uploadedFile.value)
-    return
   }
   
   if (inputData) {
@@ -286,7 +312,7 @@ function handleRun() {
 
 function handleFileSelect(event) {
   const file = event.target.files[0]
-  if (file) {
+  if (file && (file.name?.toLowerCase().endsWith('.zip') || (file.type && file.type.includes('zip')))) {
     uploadedFile.value = file
   }
 }
@@ -294,7 +320,7 @@ function handleFileSelect(event) {
 function handleFileDrop(event) {
   isDragging.value = false
   const file = event.dataTransfer.files[0]
-  if (file && file.type === 'application/json') {
+  if (file && (file.name?.toLowerCase().endsWith('.zip') || (file.type && file.type.includes('zip')))) {
     uploadedFile.value = file
   }
 }

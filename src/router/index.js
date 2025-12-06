@@ -45,10 +45,11 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const { useAuthStore } = await import('../store/auth')
   const authStore = useAuthStore()
-  
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+  const hasToken = !!authStore.token
+
+  if (to.meta.requiresAuth && !hasToken) {
     next({ path: '/login', query: { redirect: to.fullPath } })
-  } else if (to.meta.guestOnly && authStore.isAuthenticated) {
+  } else if (to.meta.guestOnly && hasToken) {
     next('/dashboard')
   } else {
     next()

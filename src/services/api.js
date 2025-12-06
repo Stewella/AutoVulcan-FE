@@ -147,11 +147,14 @@ function buildArtifact(artifactId, inputData, job) {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 function joinUrl(base, path) {
+  if (typeof base !== 'string' || !base) {
+    throw new Error('API_BASE_URL is not set')
+  }
   const b = base.endsWith('/') ? base.slice(0, -1) : base
   const p = path.startsWith('/') ? path : '/' + path
   return b + p
 }
-const endpoints = { register: '/api/v1/auth/register', token: '/api/v1/auth/token' }
+const endpoints = { register: '/api/v1/auth/register', token: '/api/v1/auth/token', submitRepo: '/api/v1/analysis/submit/repo', submitZip: '/api/v1/analysis/submit/zip' }
 
 export async function registerUser(fields) {
   const form = new FormData()
@@ -178,7 +181,7 @@ export function setAuthToken(token, type = 'bearer') {
 }
 
 export function getAuthHeaders() {
-  return authToken ? { Authorization: `${authTokenType} ${authToken}` } : {}
+  return authToken ? { Authorization: `Bearer ${authToken}` } : {}
 }
 
 export async function loginUser({ email, password }) {
@@ -193,6 +196,53 @@ export async function loginUser({ email, password }) {
   let data = null
   try { data = await res.json() } catch (_) {}
   return { ok: res.ok, status: res.status, data }
+}
+
+export async function submitRepoAnalysis({ repository_url, target_cve, target_method, target_line, timeout_seconds }) {
+  console.log('submitRepoAnalysis', { repository_url, target_cve, target_method, target_line, timeout_seconds })
+  const form = new FormData()
+  if (repository_url != null) form.append('repository_url', repository_url)
+  if (target_cve != null) form.append('target_cve', target_cve)
+  if (target_method != null) form.append('target_method', target_method)
+  if (target_line != null) form.append('target_line', String(target_line))
+  if (timeout_seconds != null) form.append('timeout_seconds', String(timeout_seconds))
+  try {
+    const res = await fetch(joinUrl(API_BASE_URL, endpoints.submitRepo), {
+      method: 'POST',
+      headers: { Accept: 'application/json', ...getAuthHeaders() },
+      body: form
+    })
+    let data = null
+    try { data = await res.json() } catch (e) { console.error('submitRepoAnalysis parse', e) }
+    console.log('submitRepoAnalysis', { ok: res.ok, status: res.status, data })
+    return { ok: res.ok, status: res.status, data }
+  } catch (e) {
+    console.error('submitRepoAnalysis fetch', e)
+    const result = { ok: false, status: 0, data: null }
+    console.log('submitRepoAnalysis', result)
+    return result
+  }
+}
+
+export async function submitZipAnalysis({ file, target_cve, target_method, target_line, timeout_seconds }) {
+  const form = new FormData()
+  if (file) form.append('file', file)
+  if (target_cve != null) form.append('target_cve', target_cve)
+  if (target_method != null) form.append('target_method', target_method)
+  if (target_line != null) form.append('target_line', String(target_line))
+  if (timeout_seconds != null) form.append('timeout_seconds', String(timeout_seconds))
+  try {
+    const res = await fetch(joinUrl(API_BASE_URL, endpoints.submitZip), {
+      method: 'POST',
+      headers: { Accept: 'application/json', ...getAuthHeaders() },
+      body: form
+    })
+    let data = null
+    try { data = await res.json() } catch (_) {}
+    return { ok: res.ok, status: res.status, data }
+  } catch (_) {
+    return { ok: false, status: 0, data: null }
+  }
 }
 
 export default api

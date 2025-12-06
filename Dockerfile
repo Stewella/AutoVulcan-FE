@@ -3,6 +3,9 @@
 FROM node:18-alpine AS build
 WORKDIR /app
 
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+
 # install build deps
 COPY package.json package-lock.json* ./
 COPY yarn.lock* ./
