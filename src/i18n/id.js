@@ -55,8 +55,7 @@ export default {
     },
     about: {
       title: 'Tentang VulnShield Labs',
-      p1: 'VulnShield Labs adalah perusahaan keamanan siber yang fokus mengembangkan solusi keamanan berbasis otomasi dan AI. Kami membantu organisasi mendeteksi, memvalidasi, dan memitigasi kerentanan sistem dengan pendekatan yang efisien dan terukur.',
-      p2: 'Didukung oleh tim riset keamanan dan engineering yang berpengalaman, VulnShield Labs menggabungkan metodologi vulnerability mining dan threat intelligence untuk memberikan perlindungan komprehensif terhadap ancaman siber modern. Lebih dari 90% software modern dibangun menggunakan komponen Open-Source Software (OSS), dan platform kami secara khusus menargetkan dependensi ini untuk memastikan aplikasi Anda tetap aman.'
+      p1: 'VulnShield Labs adalah perusahaan keamanan siber yang fokus mengembangkan solusi keamanan berbasis otomasi dan AI. Kami membantu organisasi mendeteksi, memvalidasi, dan memitigasi kerentanan sistem dengan pendekatan yang efisien dan terukur.'
     },
     features: {
       title: 'Fitur Cepat Auto-Vulcan',

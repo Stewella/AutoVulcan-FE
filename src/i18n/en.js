@@ -55,8 +55,7 @@ export default {
     },
     about: {
       title: 'About VulnShield Labs',
-      p1: 'VulnShield Labs is a company focused on developing automation and AI-based security solutions. We help organizations detect, validate, and mitigate system vulnerabilities with an efficient and measurable approach.',
-      p2: 'Supported by an experienced security research and engineering team, VulnShield Labs combines vulnerability mining methodology and threat intelligence to deliver comprehensive protection against modern cyber threats. More than 90% of modern software is built using Open-Source Software (OSS) components, and our platform specifically targets these dependencies to ensure your applications remain secure.'
+      p1: 'VulnShield Labs is a company focused on developing automation and AI-based security solutions. We help organizations detect, validate, and mitigate system vulnerabilities with an efficient and measurable approach.'
     },
     features: {
       title: 'Auto-Vulcan Quick Features',
