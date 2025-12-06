@@ -154,7 +154,7 @@ function joinUrl(base, path) {
   const p = path.startsWith('/') ? path : '/' + path
   return b + p
 }
-const endpoints = { register: '/api/v1/auth/register', token: '/api/v1/auth/token', submitRepo: '/api/v1/analysis/submit/repo', submitZip: '/api/v1/analysis/submit/zip' }
+const endpoints = { register: '/api/v1/auth/register', token: '/api/v1/auth/token', submitRepo: '/api/v1/analysis/submit/repo', submitZip: '/api/v1/analysis/submit/zip', graph: '/api/v1/analysis/graph' }
 
 export async function registerUser(fields) {
   const form = new FormData()
@@ -243,6 +243,14 @@ export async function submitZipAnalysis({ file, target_cve, target_method, targe
   } catch (_) {
     return { ok: false, status: 0, data: null }
   }
+}
+
+export async function getExecutionGraph(executionId) {
+  const url = joinUrl(API_BASE_URL, endpoints.graph) + `?execution_id=${encodeURIComponent(executionId)}`
+  const res = await fetch(url, { headers: { Accept: 'application/json' } })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
 }
 
 export default api

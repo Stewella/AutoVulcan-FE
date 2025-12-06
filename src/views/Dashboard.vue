@@ -106,7 +106,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useArtifactStore } from '../store'
-import { api } from '../services/api'
+import { api, getExecutionGraph } from '../services/api'
 import { useI18n } from '../composables/useI18n'
 import CodeInputPanel from '../components/CodeInputPanel.vue'
 import ArtifactTable from '../components/ArtifactTable.vue'
@@ -234,8 +234,20 @@ function downloadArtifact(artifact) {
   URL.revokeObjectURL(url)
 }
 
-function openCallGraph(artifact) {
-  selectedArtifact.value = artifact
+async function openCallGraph(artifact) {
+  const execId = artifact.executionId || artifact.id
+  let graph = null
+  try {
+    const res = await getExecutionGraph(execId)
+    if (res.ok) {
+      graph = res.data?.callGraph || res.data || null
+    }
+  } catch (_) {}
+  const callGraph = graph || artifact.artifactJson?.callGraph || { nodes: [], edges: [] }
+  selectedArtifact.value = {
+    ...artifact,
+    artifactJson: { ...(artifact.artifactJson || {}), callGraph }
+  }
   showGraphModal.value = true
 }
 

@@ -116,7 +116,10 @@ const emit = defineEmits(['close'])
 
 const modalRef = ref(null)
 
-const callGraph = computed(() => props.artifact.artifactJson?.callGraph || { nodes: [], edges: [] })
+const callGraph = computed(() => {
+  const cg = props.artifact.artifactJson?.callGraph
+  return (cg && cg.callGraph) ? cg.callGraph : (cg || { nodes: [], edges: [] })
+})
 
 const flowNodes = computed(() => {
   const nodes = callGraph.value.nodes || []
