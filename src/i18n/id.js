@@ -100,8 +100,8 @@ export default {
     title: 'Dasbor Auto-Vulcan',
     subtitle: 'Pencarian Kerentanan Otomatis dengan Metode SIEGE',
     codeInput: 'Input Kode',
-    artifactHistory: 'Riwayat Artefak',
-    searchPlaceholder: 'Cari artefak...',
+    artifactHistory: 'Riwayat Laporan',
+    searchPlaceholder: 'Cari laporan...',
     allStatus: 'Semua Status',
     analysis: {
       running: 'Analisis Berjalan',
@@ -143,7 +143,7 @@ export default {
     }
   },
   artifactDetail: {
-    title: 'Detail Artefak',
+    title: 'Detail Laporan',
     repository: 'Repositori',
     commit: 'Commit',
     status: 'Status',
