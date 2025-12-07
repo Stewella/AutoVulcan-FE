@@ -119,6 +119,7 @@ export default {
     commitHash: 'Hash Commit',
     targetCve: 'Target CVE',
     targetMethod: 'Target Method',
+    selectMethod: 'Pilih metode',
     targetLine: 'Target Line',
     timeout: 'Batas Waktu (detik)',
     uploadZip: 'Unggah File .zip',
