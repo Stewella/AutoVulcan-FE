@@ -519,6 +519,11 @@ function clearUploadedFile() {
 
 .autocomplete-wrapper {
   position: relative;
+  width: 100%;
+}
+
+.autocomplete-wrapper .form-control {
+  width: 100%;
 }
 
 .autocomplete-dropdown {
