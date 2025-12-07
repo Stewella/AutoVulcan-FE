@@ -100,8 +100,8 @@ export default {
     title: 'Dasbor Auto-Vulcan',
     subtitle: 'Pencarian Kerentanan Otomatis dengan Metode SIEGE',
     codeInput: 'Input Kode',
-    artifactHistory: 'Riwayat',
-    searchPlaceholder: 'Cari riwayat...',
+    artifactHistory: 'Riwayat Artefak',
+    searchPlaceholder: 'Cari artefak...',
     allStatus: 'Semua Status',
     analysis: {
       running: 'Analisis Berjalan',
@@ -119,7 +119,6 @@ export default {
     commitHash: 'Hash Commit',
     targetCve: 'Target CVE',
     targetMethod: 'Target Method',
-    selectMethod: 'Pilih metode',
     targetLine: 'Target Line',
     timeout: 'Batas Waktu (detik)',
     uploadZip: 'Unggah File .zip',
@@ -144,7 +143,7 @@ export default {
     }
   },
   artifactDetail: {
-    title: 'Detail Laporan',
+    title: 'Detail Artefak',
     repository: 'Repositori',
     commit: 'Commit',
     status: 'Status',

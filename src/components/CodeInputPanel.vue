@@ -43,23 +43,13 @@
       
       <div class="form-group">
         <label for="targetMethod" class="input-label">{{ t.codeInput.targetMethod }}</label>
-        <select 
+        <input 
           id="targetMethod"
           v-model="formData.targetMethod" 
+          type="text" 
           class="form-control"
-        >
-          <option value="">{{ t.codeInput.selectMethod }}</option>
-          <option value="readObject">readObject</option>
-          <option value="readResolve">readResolve</option>
-          <option value="readExternal">readExternal</option>
-          <option value="invoke">invoke</option>
-          <option value="execute">execute</option>
-          <option value="doFilter">doFilter</option>
-          <option value="service">service</option>
-          <option value="init">init</option>
-          <option value="destroy">destroy</option>
-          <option value="main">main</option>
-        </select>
+          placeholder="com.example.ClassName.methodName"
+        />
       </div>
       
       <div class="form-group">
@@ -132,23 +122,13 @@
         
         <div class="form-group">
           <label for="uploadTargetMethod" class="input-label">{{ t.codeInput.targetMethod }}</label>
-          <select 
+          <input 
             id="uploadTargetMethod"
             v-model="uploadData.targetMethod" 
+            type="text" 
             class="form-control"
-          >
-            <option value="">{{ t.codeInput.selectMethod }}</option>
-            <option value="readObject">readObject</option>
-            <option value="readResolve">readResolve</option>
-            <option value="readExternal">readExternal</option>
-            <option value="invoke">invoke</option>
-            <option value="execute">execute</option>
-            <option value="doFilter">doFilter</option>
-            <option value="service">service</option>
-            <option value="init">init</option>
-            <option value="destroy">destroy</option>
-            <option value="main">main</option>
-          </select>
+            placeholder="com.example.ClassName.methodName"
+          />
         </div>
         
         <div class="form-group">

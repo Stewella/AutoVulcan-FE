@@ -100,8 +100,8 @@ export default {
     title: 'Auto-Vulcan Dashboard',
     subtitle: 'Automated Vulnerability Mining with SIEGE Method',
     codeInput: 'Code Input',
-    artifactHistory: 'Report History',
-    searchPlaceholder: 'Search report...',
+    artifactHistory: 'Artifact History',
+    searchPlaceholder: 'Search artifacts...',
     allStatus: 'All Status',
     analysis: {
       running: 'Analysis Running',
@@ -119,7 +119,6 @@ export default {
     commitHash: 'Commit Hash',
     targetCve: 'Target CVE',
     targetMethod: 'Target Method',
-    selectMethod: 'Select a method',
     targetLine: 'Target Line',
     timeout: 'Timeout (seconds)',
     uploadZip: 'Upload File .zip',
@@ -144,7 +143,7 @@ export default {
     }
   },
   artifactDetail: {
-    title: 'Report Details',
+    title: 'Artifact Details',
     repository: 'Repository',
     commit: 'Commit',
     status: 'Status',
