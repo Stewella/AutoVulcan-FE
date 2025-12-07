@@ -32,13 +32,29 @@
       
       <div class="form-group">
         <label for="targetCVE" class="input-label">{{ t.codeInput.targetCve }}</label>
-        <input 
-          id="targetCVE"
-          v-model="formData.targetCVE" 
-          type="text" 
-          class="form-control"
-          placeholder="CVE-2024-XXXX"
-        />
+        <div class="autocomplete-wrapper">
+          <input 
+            id="targetCVE"
+            v-model="formData.targetCVE" 
+            type="text" 
+            class="form-control"
+            placeholder="CVE-2024-XXXX"
+            @focus="showFormCveDropdown = true"
+            @input="filterFormCveOptions"
+            @blur="hideFormCveDropdownDelayed"
+            autocomplete="off"
+          />
+          <div v-if="showFormCveDropdown && filteredFormCveOptions.length > 0" class="autocomplete-dropdown">
+            <div 
+              v-for="option in filteredFormCveOptions" 
+              :key="option"
+              class="autocomplete-option"
+              @mousedown.prevent="selectFormCve(option)"
+            >
+              {{ option }}
+            </div>
+          </div>
+        </div>
       </div>
       
       <div class="form-group">
@@ -111,13 +127,29 @@
       <div class="upload-options">
         <div class="form-group">
           <label for="uploadTargetCVE" class="input-label">{{ t.codeInput.targetCve }}</label>
-          <input 
-            id="uploadTargetCVE"
-            v-model="uploadData.targetCVE" 
-            type="text" 
-            class="form-control"
-            placeholder="CVE-2024-XXXX"
-          />
+          <div class="autocomplete-wrapper">
+            <input 
+              id="uploadTargetCVE"
+              v-model="uploadData.targetCVE" 
+              type="text" 
+              class="form-control"
+              placeholder="CVE-2024-XXXX"
+              @focus="showUploadCveDropdown = true"
+              @input="filterUploadCveOptions"
+              @blur="hideUploadCveDropdownDelayed"
+              autocomplete="off"
+            />
+            <div v-if="showUploadCveDropdown && filteredUploadCveOptions.length > 0" class="autocomplete-dropdown">
+              <div 
+                v-for="option in filteredUploadCveOptions" 
+                :key="option"
+                class="autocomplete-option"
+                @mousedown.prevent="selectUploadCve(option)"
+              >
+                {{ option }}
+              </div>
+            </div>
+          </div>
         </div>
         
         <div class="form-group">
@@ -193,6 +225,63 @@ const jsonError = ref('')
 const isDragging = ref(false)
 const uploadedFile = ref(null)
 const fileInput = ref(null)
+
+const cveOptions = [
+  'CVE-2024-22262',
+  'CVE-2024-22243',
+  'CVE-2023-34035',
+  'CVE-2023-20863',
+  'CVE-2022-22965'
+]
+
+const showFormCveDropdown = ref(false)
+const showUploadCveDropdown = ref(false)
+const filteredFormCveOptions = ref([...cveOptions])
+const filteredUploadCveOptions = ref([...cveOptions])
+
+function filterFormCveOptions() {
+  const query = (formData.value.targetCVE || '').toLowerCase()
+  if (!query) {
+    filteredFormCveOptions.value = [...cveOptions]
+  } else {
+    filteredFormCveOptions.value = cveOptions.filter(opt => 
+      opt.toLowerCase().includes(query)
+    )
+  }
+}
+
+function filterUploadCveOptions() {
+  const query = (uploadData.value.targetCVE || '').toLowerCase()
+  if (!query) {
+    filteredUploadCveOptions.value = [...cveOptions]
+  } else {
+    filteredUploadCveOptions.value = cveOptions.filter(opt => 
+      opt.toLowerCase().includes(query)
+    )
+  }
+}
+
+function selectFormCve(option) {
+  formData.value.targetCVE = option
+  showFormCveDropdown.value = false
+}
+
+function selectUploadCve(option) {
+  uploadData.value.targetCVE = option
+  showUploadCveDropdown.value = false
+}
+
+function hideFormCveDropdownDelayed() {
+  setTimeout(() => {
+    showFormCveDropdown.value = false
+  }, 150)
+}
+
+function hideUploadCveDropdownDelayed() {
+  setTimeout(() => {
+    showUploadCveDropdown.value = false
+  }, 150)
+}
 
 const formData = ref({
   repository: '',
@@ -426,6 +515,38 @@ function clearUploadedFile() {
 .form-control:focus {
   outline: none;
   border-color: var(--primary);
+}
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.autocomplete-option {
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.autocomplete-option:hover {
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--primary);
 }
 
 .upload-area {
