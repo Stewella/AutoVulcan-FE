@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { loginUser, setAuthToken } from '../services/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -9,18 +10,25 @@ export const useAuthStore = defineStore('auth', {
   }),
   
   actions: {
-    login(email, password) {
-      const users = JSON.parse(localStorage.getItem('vulnshield-users') || '[]')
-      const user = users.find(u => u.email === email && u.password === password)
-      
-      if (user) {
-        this.user = { email: user.email, name: user.name }
-        this.isAuthenticated = true
-        this.token = 'mock-token-' + Date.now()
-        return { success: true }
+    async login(email, password) {
+      try {
+        const res = await loginUser({ email, password })
+        if (res.ok) {
+          const token = res.data?.access_token
+          const type = res.data?.token_type || 'bearer'
+          if (token) {
+            this.setToken(token, type)
+            setAuthToken(token, type)
+          }
+          this.user = { email }
+          this.isAuthenticated = true
+          return { success: true }
+        }
+        const msg = (res.data && (res.data.message || res.data.error)) || 'Invalid email or password'
+        return { success: false, error: msg }
+      } catch (e) {
+        return { success: false, error: 'Network error' }
       }
-      
-      return { success: false, error: 'Invalid email or password' }
     },
     signup(name, email, password) {
       const users = JSON.parse(localStorage.getItem('vulnshield-users') || '[]')
@@ -31,7 +39,6 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('vulnshield-users', JSON.stringify(users))
       this.user = { email, name }
       this.isAuthenticated = true
-      this.token = 'mock-token-' + Date.now()
       return { success: true }
     },
     setToken(token, type = 'bearer') {
