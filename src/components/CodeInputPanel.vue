@@ -351,18 +351,21 @@ async function handleRun() {
     const targetLine = formData.value.targetLine ?? null
     const timeout = formData.value.timeoutSeconds
 
+    let execId = null
     try {
-      await submitRepoAnalysis({
+      const res = await submitRepoAnalysis({
         repository_url: repoUrl,
         target_cve: targetCve,
         target_method: targetMethod,
         target_line: targetLine,
         timeout_seconds: timeout
       })
+      if (res.ok && res.data?.execution_id) execId = res.data.execution_id
     } catch (_) {}
 
     inputData = {
       repository: repoUrl,
+      executionId: execId,
       files: [],
       scanOptions: {
         targetCVE: targetCve || null,
@@ -372,18 +375,21 @@ async function handleRun() {
       }
     }
   } else if (inputMode.value === 'upload' && uploadedFile.value) {
+    let execId = null
     try {
-      await submitZipAnalysis({
+      const res = await submitZipAnalysis({
         file: uploadedFile.value,
         target_cve: uploadData.value.targetCVE || null,
         target_method: uploadData.value.targetMethod || null,
         target_line: uploadData.value.targetLine ?? null,
         timeout_seconds: uploadData.value.timeoutSeconds
       })
+      if (res.ok && res.data?.execution_id) execId = res.data.execution_id
     } catch (_) {}
 
     inputData = {
       repository: uploadedFile.value.name,
+      executionId: execId,
       files: [],
       scanOptions: {
         targetCVE: uploadData.value.targetCVE || null,

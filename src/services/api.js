@@ -269,4 +269,12 @@ export async function getMyExecutions() {
   return { ok: res.ok, status: res.status, data }
 }
 
+export async function getExecutionProgress(executionId) {
+  const url = joinUrl(API_BASE_URL, `/api/v1/analysis/status/${encodeURIComponent(executionId)}/progress`)
+  const res = await fetch(url, { headers: { Accept: 'application/json' } })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
+}
+
 export default api

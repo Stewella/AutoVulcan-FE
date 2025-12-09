@@ -106,7 +106,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useArtifactStore } from '../store'
-import { api, getExecutionGraph, getMyExecutions } from '../services/api'
+import { api, getExecutionGraph, getMyExecutions, getExecutionProgress } from '../services/api'
 import { useAuthStore } from '../store/auth'
 import { useI18n } from '../composables/useI18n'
 import CodeInputPanel from '../components/CodeInputPanel.vue'
@@ -174,11 +174,13 @@ function getAnalysisStatusText(status) {
 async function handleRunScan(inputData) {
   isRunning.value = true
   currentJob.value = { status: 'running', progress: 0 }
-  
   try {
-    const { jobId } = await api.runScan(inputData)
-    
-    await pollJobStatus(jobId, inputData)
+    if (inputData.executionId) {
+      await pollExecutionProgress(inputData.executionId)
+    } else {
+      const { jobId } = await api.runScan(inputData)
+      await pollJobStatus(jobId, inputData)
+    }
   } catch (error) {
     currentJob.value = { status: 'failed', error: error.message }
   } finally {
@@ -188,12 +190,10 @@ async function handleRunScan(inputData) {
 
 async function pollJobStatus(jobId, inputData) {
   const pollInterval = 500
-  
   while (true) {
     try {
       const status = await api.getJobStatus(jobId)
       currentJob.value = status
-      
       if (status.status === 'success') {
         const artifact = {
           id: status.artifactId,
@@ -210,12 +210,43 @@ async function pollJobStatus(jobId, inputData) {
       } else if (status.status === 'failed') {
         break
       }
-      
       await new Promise(resolve => setTimeout(resolve, pollInterval))
     } catch (error) {
       currentJob.value = { status: 'failed', error: error.message }
       break
     }
+  }
+}
+
+async function pollExecutionProgress(executionId) {
+  const pollInterval = 1000
+  const toMs = (iso) => iso ? new Date(iso).getTime() : null
+  while (true) {
+    const res = await getExecutionProgress(executionId)
+    if (!res.ok) {
+      currentJob.value = { status: 'failed', error: 'Failed to fetch progress' }
+      break
+    }
+    const d = res.data || {}
+    const state = String(d.state || '').toLowerCase()
+    const status = state === 'success' ? 'success' : (state === 'failed' ? 'failed' : 'running')
+    const started = toMs(d.started_at)
+    const finished = toMs(d.finished_at)
+    const duration = started && finished ? Math.max(0, finished - started) : (started ? Math.max(0, Date.now() - started) : 0)
+    const progress = Number(d.progress_percent) || 0
+    currentJob.value = {
+      status,
+      progress,
+      duration,
+      cves: [],
+      error: status === 'failed' ? (Array.isArray(d.logs) ? d.logs[d.logs.length - 1] : d.current_step) : undefined
+    }
+    if (progress >= 100) {
+      try { window.location.reload() } catch (_) {}
+      break
+    }
+    if (status === 'success' || status === 'failed') break
+    await new Promise(resolve => setTimeout(resolve, pollInterval))
   }
 }
 
