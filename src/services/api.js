@@ -253,4 +253,20 @@ export async function getExecutionGraph(executionId) {
   return { ok: res.ok, status: res.status, data }
 }
 
+export async function getUserExecutions(userId) {
+  const url = joinUrl(API_BASE_URL, `/api/v1/analysis/status/user/${encodeURIComponent(userId)}/executions`)
+  const res = await fetch(url, { headers: { Accept: 'application/json', ...getAuthHeaders() } })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
+}
+
+export async function getMyExecutions() {
+  const url = joinUrl(API_BASE_URL, '/api/v1/analysis/status/user/executions')
+  const res = await fetch(url, { headers: { Accept: 'application/json', ...getAuthHeaders() } })
+  let data = null
+  try { data = await res.json() } catch (_) {}
+  return { ok: res.ok, status: res.status, data }
+}
+
 export default api

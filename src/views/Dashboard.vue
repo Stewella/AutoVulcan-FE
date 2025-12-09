@@ -106,7 +106,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useArtifactStore } from '../store'
-import { api, getExecutionGraph } from '../services/api'
+import { api, getExecutionGraph, getMyExecutions } from '../services/api'
+import { useAuthStore } from '../store/auth'
 import { useI18n } from '../composables/useI18n'
 import CodeInputPanel from '../components/CodeInputPanel.vue'
 import ArtifactTable from '../components/ArtifactTable.vue'
@@ -143,8 +144,22 @@ const filteredArtifacts = computed(() => {
   return result
 })
 
-onMounted(() => {
-  store.initDemoData()
+onMounted(async () => {
+  const res = await getMyExecutions()
+  if (res.ok && Array.isArray(res.data?.items)) {
+    const items = res.data.items.map(it => ({
+      id: it.execution_id,
+      executionId: it.execution_id,
+      repository: it.repository,
+      commit: it.commit,
+      status: it.status_label || (it.status ? it.status.charAt(0).toUpperCase() + it.status.slice(1) : 'Unknown'),
+      cves: Array.isArray(it.cves) ? it.cves : [],
+      durationMs: (Number(it.duration_seconds) || 0) * 1000,
+      createdAt: it.started_at,
+      artifactJson: { callGraph: { nodes: [], edges: [] } }
+    }))
+    store.artifacts = items
+  }
 })
 
 function getAnalysisStatusText(status) {
@@ -235,7 +250,7 @@ function downloadArtifact(artifact) {
 }
 
 async function openCallGraph(artifact) {
-  const execId = artifact.executionId || artifact.id
+  const execId = artifact.executionId || artifact.execution_id || artifact.id
   let graph = null
   try {
     const res = await getExecutionGraph(execId)

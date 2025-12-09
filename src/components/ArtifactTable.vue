@@ -9,7 +9,6 @@
               {{ sortOrder === 'asc' ? '↑' : '↓' }}
             </span>
           </th>
-          <th>{{ t.artifactTable.commit }}</th>
           <th @click="sort('status')" class="sortable">
             {{ t.artifactTable.status }}
             <span class="sort-icon" v-if="sortKey === 'status'">
@@ -42,8 +41,6 @@
           <td class="repo-cell">
             <span class="repo-name">{{ artifact.repository }}</span>
           </td>
-          <td class="commit-cell">
-            <code>{{ artifact.commit }}</code>
           </td>
           <td>
             <span :class="['badge', getStatusClass(artifact.status)]">
@@ -265,13 +262,6 @@ function formatTime(isoString) {
   color: var(--text-primary);
 }
 
-.commit-cell code {
-  background: var(--bg-input);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.8125rem;
-  color: var(--secondary);
-}
 
 .cve-list {
   display: flex;
