@@ -159,6 +159,7 @@ export default {
     failed: 'Failed',
     executionTrace: 'Execution Trace',
     failureReason: 'Failure Reason:',
+    targetCves: 'Target CVEs',
     cvesDetected: 'CVEs Detected',
     close: 'Close'
   },

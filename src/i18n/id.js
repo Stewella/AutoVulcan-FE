@@ -159,6 +159,7 @@ export default {
     failed: 'Gagal',
     executionTrace: 'Jejak Eksekusi',
     failureReason: 'Alasan Kegagalan:',
+    targetCves: 'Target CVE',
     cvesDetected: 'CVE Terdeteksi',
     close: 'Tutup'
   },
