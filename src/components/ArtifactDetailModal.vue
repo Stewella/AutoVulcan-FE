@@ -18,10 +18,6 @@
             <span class="value">{{ artifact.repository }}</span>
           </div>
           <div class="summary-item">
-            <span class="label">{{ t.artifactDetail.commit }}</span>
-            <code class="value commit">{{ artifact.commit }}</code>
-          </div>
-          <div class="summary-item">
             <span class="label">{{ t.artifactDetail.status }}</span>
             <span :class="['badge', getStatusClass(artifact.status)]">{{ artifact.status }}</span>
           </div>
@@ -31,71 +27,7 @@
           </div>
         </div>
 
-        <div class="section">
-          <h3 class="section-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            {{ t.artifactDetail.vulnLocalization }}
-          </h3>
-          <div class="localization-info" v-if="localization">
-            <div class="loc-item">
-              <span class="loc-label">{{ t.artifactDetail.class }}</span>
-              <code>{{ localization.className }}</code>
-            </div>
-            <div class="loc-item">
-              <span class="loc-label">{{ t.artifactDetail.method }}</span>
-              <code>{{ localization.method }}</code>
-            </div>
-            <div class="loc-item">
-              <span class="loc-label">{{ t.artifactDetail.line }}</span>
-              <code class="line-number">{{ localization.line }}</code>
-            </div>
-          </div>
-        </div>
 
-        <div class="section">
-          <h3 class="section-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            {{ t.artifactDetail.evidenceReport }}
-          </h3>
-          <div class="evidence-info" v-if="evidence">
-            <div class="coverage-bar">
-              <span class="coverage-label">{{ t.artifactDetail.codeCoverage }}</span>
-              <div class="coverage-track">
-                <div class="coverage-fill" :style="{ width: evidence.coverage + '%' }"></div>
-              </div>
-              <span class="coverage-value">{{ evidence.coverage }}%</span>
-            </div>
-            
-            <div class="exploit-status">
-              <span class="exploit-label">{{ t.artifactDetail.exploitStatus }}</span>
-              <span :class="['exploit-badge', evidence.exploitSuccess ? 'success' : 'failed']">
-                {{ evidence.exploitSuccess ? t.artifactDetail.successful : t.artifactDetail.failed }}
-              </span>
-            </div>
-            
-            <div class="execution-trace" v-if="evidence.executionTrace">
-              <h4>{{ t.artifactDetail.executionTrace }}</h4>
-              <ol class="trace-list">
-                <li v-for="(step, index) in evidence.executionTrace" :key="index">
-                  <code>{{ step }}</code>
-                </li>
-              </ol>
-            </div>
-
-            <div v-if="evidence.failureReason" class="failure-reason">
-              <strong>{{ t.artifactDetail.failureReason }}</strong> {{ evidence.failureReason }}
-            </div>
-          </div>
-        </div>
 
         <div class="section cves-section" v-if="artifact.cves?.length">
           <h3 class="section-title">
@@ -138,8 +70,6 @@ const emit = defineEmits(['close'])
 
 const modalRef = ref(null)
 
-const localization = computed(() => props.artifact.artifactJson?.localization)
-const evidence = computed(() => props.artifact.artifactJson?.evidence)
 
 onMounted(() => {
   if (modalRef.value) {
