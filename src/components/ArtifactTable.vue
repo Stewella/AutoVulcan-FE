@@ -41,7 +41,6 @@
           <td class="repo-cell">
             <span class="repo-name">{{ artifact.repository }}</span>
           </td>
-          </td>
           <td>
             <span :class="['badge', getStatusClass(artifact.status)]">
               {{ artifact.status }}
